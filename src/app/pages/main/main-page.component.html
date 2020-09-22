@@ -1,0 +1,70 @@
+<div *ngIf="!featureOpened" class="h-100 d-flex flex-column justify-content-between align-items-start">
+  <div class="container-fluid mb-auto">
+    <div class="row d-flex justify-content-end align-items-center h-100">
+      <div class="user-info" (click)="openMenu()">
+        Daniel Franco <i class="material-icons">keyboard_arrow_down</i>
+        <div class="dropdown" [@dropdownMenu]="menu">
+          <div class="dropdown-item" (click)="changeCnpj()">Trocar de CNPJ</div>
+          <div class="dropdown-item" (click)="logout()">Sair</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid h-50">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-sm-5">
+        <div class="row items" [@fadeIn]="visible">
+          <div (click)="onFeatureClick(feature)" class="item" *ngFor="let feature of features">
+            <i class="material-icons unselectable">{{ feature.icon }}</i>
+            <span class="text unselectable">{{ feature.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt-auto d-flex justify-content-center">
+    <div class="copyright">
+      © Copyright 2018 - Todos os direitos reservados
+    </div>
+  </div>
+</div>
+
+<div *ngIf="featureOpened" class="h-100 d-flex flex-column justify-content-between align-items-start">
+  <div class="navbar">
+    <div (click)="onSpotlightClick()" class="spotlight">
+      <i class="material-icons">menu</i>
+    </div>
+    <div
+      *ngFor="let feature of openedFeatures"
+      class="feature-name"
+      (click)="selectFunction(feature)"
+      [ngClass]="{ 'selected': feature.selected }">
+      {{ feature.name }}
+      <i *ngIf="feature.selected" (click)="closeFunction(feature)" class="material-icons">highlight_off</i>
+    </div>
+  </div>
+  <div class="container-fluid h-100 main-app">
+    <div *ngIf="selectedFeature" class="app-content">
+      <div class="row d-flex justify-content-center h-100">
+        <div class="col-sm-12 feature-container">
+          <app-feature [feature]="selectedFeature"></app-feature>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spotlight-menu" [@spotlight]="spotlightOpened" (@spotlight.done)="onSpotlightEndAnimation()" (@spotlight.start)="onSpotlightStartAnimation()">
+  <div class="container-fluid h-50" [@spotlightChildren]="spotlightChildrenOpened">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-sm-5">
+        <div class="row items">
+          <div (click)="onFeatureClick(feature)" class="item" *ngFor="let feature of features">
+            <i class="material-icons unselectable">{{ feature.icon }}</i>
+            <span class="text unselectable">{{ feature.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

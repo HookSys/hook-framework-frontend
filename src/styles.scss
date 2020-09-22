@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import "~compass-mixins/lib/compass";
+
+* {
+    font-family: Roboto;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+ }
+
+html {
+    height: 100%;
+
+    body {
+        height: 100%;
+
+        background: rgba(63,151,233,1);
+        background: -moz-radial-gradient(center, ellipse cover, rgba(63,151,233,1) 0%, rgba(0,73,107,1) 100%);
+        background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(63,151,233,1)), color-stop(100%, rgba(0,73,107,1)));
+        background: -webkit-radial-gradient(center, ellipse cover, rgba(63,151,233,1) 0%, rgba(0,73,107,1) 100%);
+        background: -o-radial-gradient(center, ellipse cover, rgba(63,151,233,1) 0%, rgba(0,73,107,1) 100%);
+        background: -ms-radial-gradient(center, ellipse cover, rgba(63,151,233,1) 0%, rgba(0,73,107,1) 100%);
+        background: radial-gradient(ellipse at center, rgba(63,151,233,1) 0%, rgba(0,73,107,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f97e9', endColorstr='#00496b', GradientType=1 );
+
+
+        background-attachment: fixed;
+    }
+}

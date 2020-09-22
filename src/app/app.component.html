@@ -1,1 +1,6 @@
-<view-engine></view-engine>
+<div class="h-100" *ngIf="!logged">
+  <app-login-page (success)="loginSuccess()"></app-login-page>
+</div>
+<div class="h-100" *ngIf="logged">
+  <app-main-page (exit)="onExit()"></app-main-page>
+</div>

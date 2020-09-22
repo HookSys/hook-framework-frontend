@@ -1,0 +1,5 @@
+<div *ngIf="dto" class="row">
+    <div *ngFor="let slot of dto.child" [class]="'col-sm-' + (12 / dto.size)">
+        <app-schematics [code]="slot"></app-schematics>    
+    </div>
+</div>

@@ -1,0 +1,19 @@
+$min-gray3-color: #d8d8d8;
+$gray-color: #404040;
+$min-gray3-color: #d8d8d8;
+
+.edit-panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .buttons {
+        margin-top: auto;
+        margin-bottom: 20px;
+    }
+}
+
+app-dynamic-grid {
+    height: 85%;
+}
