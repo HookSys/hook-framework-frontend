@@ -1,0 +1,29 @@
+<div class="table-container">
+  <table class="table">
+    <thead class="table-header">
+      <th
+        *ngFor="let col of columns"
+        class="header-item"
+        [ngStyle]="col.sizePercent ? { 'width.%': col.sizePercent } : { 'width.%': defaultWidth }"
+        (click)="makeOrder(col)">
+        <strong>{{col.label}}</strong>
+        <i *ngIf="col.sort" class="material-icons">{{col.sort == 'asc' ? 'arrow_downward' : 'arrow_upward'}}</i>
+      </th>
+    </thead>
+    <tbody class="table-body">
+      <tr
+        *ngFor="let reg of data"
+        (click)="onLineClick(reg)"
+        (dblclick)="onDblClick(selected)"
+        class="table-line"
+        [ngClass]="{ 'selected': selected && selected[metadata.pk] == reg[metadata.pk] }">
+        <td
+          *ngFor="let col of columns"
+          class="table-line-col"
+          [ngStyle]="col.sizePercent ? { 'width.%': col.sizePercent } : { 'width.%': defaultWidth }">
+          {{reg[col.name]}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

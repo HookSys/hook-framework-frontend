@@ -4,20 +4,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ViewEngineFormService } from './view-engine.service';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
-import { ViewEngineFormComponent } from './components/ve-form/ve-form.component';
-import { IViewEngineFormInstance } from './interfaces';
 import { ViewEngineComponent } from './engine/engine.component';
+import { ViewEngineGridComponent } from './components/molecules/ve-grid/ve-grid.component';
+import { ViewEngineDbTableComponent } from './components/organisms/ve-dbtable/ve-dbtable.component';
+import { IViewEngineDbTableInstance } from './components/organisms/ve-dbtable/ve-dbtable.interface';
+import { ViewEngineDbTableHandler } from './components/organisms/ve-dbtable/ve-dbtable.handler';
+import { ViewEngineFormComponent } from './components/molecules/ve-form/ve-form.component';
+import { ViewEngineDbTableService } from './components/organisms/ve-dbtable/ve-dbtable.service';
+import { ViewEngineFieldComponent } from './components/atoms/ve-field/ve-field.component';
 
 function InitViewEngine(forms: any = {}) {
-  return function (formsService: ViewEngineFormService) {
+  return function (formsService: ViewEngineDbTableHandler) {
     return () => {
       return new Promise((resolve) => {
         const formKeys = Object.keys(forms)
         formKeys.forEach((key: string, inx) => {
           if (key !== 'default') {
-            const Form = forms[key] as IViewEngineFormInstance
+            const Form = forms[key] as IViewEngineDbTableInstance
             formsService.register(Form)
           }
           if (inx === formKeys.length - 1) {
@@ -32,7 +36,10 @@ function InitViewEngine(forms: any = {}) {
 @NgModule({
   declarations: [
     ViewEngineComponent,
+    ViewEngineDbTableComponent,
     ViewEngineFormComponent,
+    ViewEngineGridComponent,
+    ViewEngineFieldComponent,
   ],
   imports: [
     CommonModule,
@@ -40,10 +47,14 @@ function InitViewEngine(forms: any = {}) {
     ReactiveFormsModule,
   ],
   providers: [
-    ViewEngineFormService
+    ViewEngineDbTableHandler,
+    ViewEngineDbTableService
   ],
   exports: [
-    ViewEngineComponent
+    ViewEngineComponent,
+    ViewEngineDbTableComponent,
+    ViewEngineGridComponent,
+    ViewEngineFieldComponent,
   ]
 })
 export class ViewEngineModule {
@@ -55,7 +66,7 @@ export class ViewEngineModule {
           provide: APP_INITIALIZER,
           useFactory: InitViewEngine(forms),
           multi: true,
-          deps: [ViewEngineFormService],
+          deps: [ViewEngineDbTableHandler],
         },
       ]
     }

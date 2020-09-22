@@ -1,0 +1,29 @@
+@import "../../organisms/ve-dbtable/ve-dbtable.component.scss";
+
+.radio {
+    label {
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+}
+
+.label-input {
+    font-weight: bold;
+    font-size: 12px;
+    color: $gray-color;
+    text-align: left;
+}
+
+.buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  button:first-child {
+    margin-right: 10px;
+  }
+}

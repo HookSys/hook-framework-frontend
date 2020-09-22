@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DynamicGridComponent } from './dynamic-grid.component';
+import { ViewEngineGridComponent } from './ve-grid.component';
 
-describe('DynamicGridComponent', () => {
-  let component: DynamicGridComponent;
-  let fixture: ComponentFixture<DynamicGridComponent>;
+describe('ViewEngineGridComponent', () => {
+  let component: ViewEngineGridComponent;
+  let fixture: ComponentFixture<ViewEngineGridComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DynamicGridComponent ]
+      declarations: [ ViewEngineGridComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DynamicGridComponent);
+    fixture = TestBed.createComponent(ViewEngineGridComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

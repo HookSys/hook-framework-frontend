@@ -1,5 +1,3 @@
-import { IViewEngineAction } from './ve.interface';
-
 export enum EViewEngineFieldType {
   TEXT,
   NUMBER,
@@ -18,10 +16,12 @@ export interface IViewEngineFieldDomain {
 
 export interface IViewEngineField {
   id: string;
+  name?: string;
   label?: string;
   size: TViewEngineFieldSize;
   line: number;
   position: number;
+  sizePercent: number;
   type: EViewEngineFieldType;
   isVisible: boolean;
   isReadOnly: boolean;
@@ -29,6 +29,7 @@ export interface IViewEngineField {
   defaultValue: any;
   mask?: string;
   domain?: IViewEngineFieldDomain[]
-  action?: IViewEngineAction,
-  description?: string;
+  desc?: string;
+  minLength?: number;
+  maxLength?: number;
 }

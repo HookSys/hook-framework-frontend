@@ -1,0 +1,21 @@
+$min-gray3-color: #d8d8d8;
+$gray-color: #404040;
+$min-gray3-color: #d8d8d8;
+
+.db-table {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .buttons {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    button:first-child {
+      margin-right: 10px;
+    }
+  }
+}

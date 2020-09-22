@@ -1,0 +1,26 @@
+<div class="db-table" *ngIf="isVisible">
+  <app-ve-field
+    *ngIf="mode == 'edit' || mode == 'new'"
+    [metadata]="dbtable"
+    [data]="selected"
+    (save)="onSave($event)"
+    (focus)="onInputFocus($event)"
+    (blur)="onInputBlur($event)"
+    (change)="onInputChange($event)"
+    (cancel)="onCancel()">
+  </app-ve-field>
+
+  <app-ve-grid
+    *ngIf="mode == 'grid'"
+    [metadata]="dbtable"
+    [data]="data"
+    [selected]="selected"
+    (select)="onSelectReg($event)"
+    (sdclick)="onDblClickReg($event)">
+  </app-ve-grid>
+
+  <div class="buttons" *ngIf="mode == 'grid'">
+    <button type="button" (click)="onEdit()" class="btn btn-dark btn-sm" [disabled]="!selected">Editar</button>
+    <button type="button" (click)="onAdd()" class="btn btn-dark btn-sm">Adicionar</button>
+  </div>
+</div>

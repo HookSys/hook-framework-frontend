@@ -1,11 +1,15 @@
-import { ViewEngineForm } from 'view-engine/decorators'
-import { IViewEngineFormHandler, IViewEngineForm } from 'view-engine/interfaces'
+import { ViewEngineDbTable } from 'view-engine/components/organisms/ve-dbtable/ve-dbtable.decorator'
+import { IViewEngineDbTableHandler } from 'view-engine/components/organisms/ve-dbtable/ve-dbtable.interface'
 
-@ViewEngineForm({
-  code: 1
+@ViewEngineDbTable({
+  id: 1,
 })
-export class DriversForm implements IViewEngineFormHandler {
-  async onBeforeLoad(form: IViewEngineForm) {
+export class DriversForm implements IViewEngineDbTableHandler {
+  async onBeforeLoad() {
     return true
+  }
+
+  onDblClick(dbtable, data) {
+    console.log(dbtable, data)
   }
 }
