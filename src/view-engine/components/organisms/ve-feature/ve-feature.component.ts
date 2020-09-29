@@ -14,7 +14,7 @@ export class ViewEngineFeatureComponent implements OnInit, OnDestroy {
   feature: IViewEngineFeature;
 
   public entrypoint: IViewEngineDbTable;
-  public isVisible = false;
+
   constructor(
     private featureHandler: ViewEngineFeatureHandler,
     private featureService: ViewEngineFeatureService
@@ -23,10 +23,9 @@ export class ViewEngineFeatureComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.featureHandler.registerComponent(this.feature, this);
-    this.featureHandler.setSelectedFeature(this.feature.id);
     this.featureService.get(this.feature.id).subscribe(({ entrypoint }) => {
       this.entrypoint = entrypoint;
-      this.isVisible = true;
+      this.featureHandler.setSelectedFeature(this.feature.id);
     })
   }
 

@@ -1,6 +1,6 @@
 import { IViewEngineDbTableParam } from './../../organisms/ve-dbtable/ve-dbtable.interface';
 import { IViewEngineAction } from './../../../interfaces/ve.interface';
-import { Component, Input, AfterViewInit, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit, OnInit, OnChanges } from '@angular/core';
 import { IViewEngineDbTable, IViewEngineOpenRecordEvent } from 'view-engine/components/organisms/ve-dbtable/ve-dbtable.interface';
 
 interface IViewEnginePanels {

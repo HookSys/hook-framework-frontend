@@ -1,4 +1,4 @@
-import { ComponentDecorator, ComponentFactory, ComponentRef, Injectable, TypeDecorator } from "@angular/core";
+import { Injectable } from "@angular/core";
 import {
   IViewEngineDbTableEventsInstance,
   IViewEngineFeature,
@@ -7,10 +7,11 @@ import {
 import { VIEW_ENGINE_FEATURE_NOTATION } from "./ve-feature.decorator";
 import { ViewEngineFeatureComponent } from './ve-feature.component';
 
-@Injectable()
+@Injectable({
+  providedIn:'root'
+})
 export class ViewEngineFeatureHandler {
   private features: IViewEngineFeatureHandler[] = [];
-  private selectedFeature: IViewEngineFeatureHandler;
 
   registerEvents(feature: IViewEngineDbTableEventsInstance): void {
     this.features = this.features.map((hFeature) => {
@@ -32,11 +33,27 @@ export class ViewEngineFeatureHandler {
   }
 
   getSelectedFeature(): IViewEngineFeatureHandler {
-    return this.selectedFeature
+    return this.features.find((f) => f.isVisible)
   }
 
   setSelectedFeature(id: number): void {
-    this.selectedFeature = this.features.find((f) => f.feature.id === id)
+    debugger
+    this.features = this.features.map((f) => {
+      if (f.feature.id === id) {
+        return {
+          ...f,
+          isVisible: true
+        }
+      }
+      return {
+        ...f,
+        isVisible: false
+      }
+    })
+  }
+
+  getFeatures() {
+    return this.features;
   }
 
   unregister(feature: IViewEngineFeature): void {

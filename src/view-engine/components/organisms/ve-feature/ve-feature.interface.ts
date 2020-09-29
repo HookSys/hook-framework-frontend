@@ -35,4 +35,5 @@ export interface IViewEngineFeatureHandler {
   feature: IViewEngineFeature,
   instance: ViewEngineFeatureComponent,
   events?: IViewEngineFeatureEvents,
+  isVisible?: boolean;
 }
