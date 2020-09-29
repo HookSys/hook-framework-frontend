@@ -43,13 +43,9 @@
       <i *ngIf="feature.selected" (click)="closeFunction(feature)" class="material-icons">highlight_off</i>
     </div>
   </div>
-  <div class="container-fluid h-100 main-app">
-    <div *ngIf="selectedFeature" class="app-content">
-      <div class="row d-flex justify-content-center h-100">
-        <div class="col-sm-12 feature-container">
-          <app-feature [feature]="selectedFeature"></app-feature>
-        </div>
-      </div>
+  <div class="container-fluid h-100 main-app px-0">
+    <div *ngIf="selectedFeature" class="app-container">
+      <ve-feature [feature]="selectedFeature"></ve-feature>
     </div>
   </div>
 </div>

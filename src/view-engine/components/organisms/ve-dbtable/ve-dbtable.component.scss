@@ -1,16 +1,29 @@
 $min-gray3-color: #d8d8d8;
 $gray-color: #404040;
 $min-gray3-color: #d8d8d8;
-
-.db-table {
+:host {
   height: 100%;
+  width: 100%;
+}
+.db-table {
+  height: inherit;
+  width: inherit;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+
+  .title {
+    margin: 10px 0px 15px 0px;
+    padding: 0px;
+    font-weight: bold;
+  }
+
+  app-ve-grid {
+    margin-bottom: auto;
+  }
 
   .buttons {
-    margin-top: 20px;
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: flex-end;

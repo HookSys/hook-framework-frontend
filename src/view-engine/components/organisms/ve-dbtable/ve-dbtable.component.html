@@ -1,4 +1,5 @@
-<div class="db-table" *ngIf="isVisible">
+<div class="db-table" *ngIf="!isLoading && isVisible">
+  <h3 class="title unselectable">{{dbtable.name}}</h3>
   <app-ve-field
     *ngIf="mode == 'edit' || mode == 'new'"
     [metadata]="dbtable"
@@ -24,3 +25,4 @@
     <button type="button" (click)="onAdd()" class="btn btn-dark btn-sm">Adicionar</button>
   </div>
 </div>
+<app-ve-loader *ngIf="isLoading"></app-ve-loader>

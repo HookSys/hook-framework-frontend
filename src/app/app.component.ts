@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { ApplicationStore } from './store/application.store';
+import { StorageService } from './services/storage.service';
+import { User } from './models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -20,11 +23,21 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     ])
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'view-engine';
   logged = false;
 
-  ngAfterViewInit() {
+  constructor(
+    private applicationStore: ApplicationStore,
+    private storageService: StorageService
+  ) {}
+
+  ngOnInit() {
+    const user: User = this.storageService.get('USER');
+    if (user && user.id) {
+      this.logged = true;
+      this.applicationStore.user = user;
+    }
   }
 
   onExit() {

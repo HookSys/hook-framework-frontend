@@ -1,5 +1,5 @@
 import { Component, Input, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models/user.model';
@@ -17,6 +17,19 @@ export class AuthService {
   }
 
   public me(): Observable<User> {
-    return this.http.get<User>(APP_ENDPOINTS.ME);
+    const inclusionFilter = {
+      include: [{
+        relation: 'policies',
+        scope: {
+          include: [{
+            relation: 'features',
+          }]
+        }
+      }],
+    };
+    return this.http.get<User>(APP_ENDPOINTS.ME, {
+      params: new HttpParams({
+        fromString: `filter=${encodeURIComponent(JSON.stringify(inclusionFilter))}`,
+      })});
   }
 }

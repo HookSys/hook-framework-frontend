@@ -1,4 +1,5 @@
-<div *ngIf="feature" class="col-sm-12">
-  <view-engine></view-engine>
-    <!-- <app-schematics [code]="feature.entrypoint"></app-schematics> -->
+<div *ngIf="isVisible" class="row h-100">
+  <div class="col-sm-12">
+    <app-panel [dto]="dto"></app-panel>
+  </div>
 </div>

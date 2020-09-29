@@ -1,3 +1,4 @@
+import { ApplicationStore } from './../../store/application.store';
 import { Component, AfterViewInit, EventEmitter, Output } from '@angular/core';
 import { trigger, state, style, animate, transition, query, stagger, keyframes } from '@angular/animations';
 
@@ -47,14 +48,14 @@ export class MainPageComponent implements AfterViewInit {
   public spotlightChildrenOpened = false;
 
   public openedFeatures: OpenedFeature[] = [];
-  public features: Feature[] = [
-    { name: 'Configurações', icon: 'computer', code: 91, entrypoint: 1001 },
-    { name: 'Layouts', icon: 'list_alt', code: 92, entrypoint: 1002 },
-    { name: 'Usuários', icon: 'group', code: 94, entrypoint: 1004 },
-  ];
+  public features: Feature[] = [];
 
   @Output('exit')
   exit: EventEmitter<boolean> = new EventEmitter();
+
+  constructor(private applicationStore: ApplicationStore) {
+    this.features = this.applicationStore.user.policies[0].features;
+  }
 
   ngAfterViewInit() {
     setTimeout(() => this.visible = true, 1000);

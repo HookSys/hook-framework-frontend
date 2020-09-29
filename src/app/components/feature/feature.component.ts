@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Feature } from '../../models';
 
 @Component({
@@ -6,10 +6,20 @@ import { Feature } from '../../models';
   templateUrl: './feature.component.html',
   styleUrls: ['./feature.component.scss'],
 })
-export class FeatureComponent {
+export class FeatureComponent implements OnInit {
   @Input()
   feature: Feature;
 
+  public dto = {}
+  public isVisible = false;
   constructor() {
+  }
+
+  ngOnInit() {
+    this.dto = [{
+      id: this.feature.entrypoint,
+      size: 12
+    }]
+    this.isVisible = true;
   }
 }

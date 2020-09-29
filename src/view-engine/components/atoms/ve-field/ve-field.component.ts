@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IViewEngineDbTable } from 'view-engine/components/organisms/ve-dbtable/ve-dbtable.interface';
-import { EViewEngineFieldType, IViewEngineField } from './ve-field.interface';
+import { IViewEngineField } from './ve-field.interface';
 
 @Component({
   selector: 'app-ve-field',

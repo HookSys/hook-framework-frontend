@@ -7,6 +7,7 @@ import { Feature } from '../../models';
   styleUrls: ['./panel.component.scss'],
 })
 export class PanelComponent implements AfterViewInit {
+  @Input()
   dto: any;
 
   constructor() {

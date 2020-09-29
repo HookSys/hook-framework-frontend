@@ -66,7 +66,9 @@ export class ViewEngineDbTableHandler {
           typeof veDbTable.onBeforeLoad === "function"
         ) {
           veDbTable.onBeforeLoad(dbtable).then(resolve);
+          return;
         }
+        resolve(true)
       });
     });
   }

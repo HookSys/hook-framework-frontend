@@ -16,12 +16,25 @@ export enum EViewEngineDbTableModes {
   NEW = 'new'
 }
 
+export interface IViewEngineDbTableParam {
+  [key: string]: string
+}
+
+export interface IViewEngineOpenRecordEvent {
+  data: IViewEngineDbTableParam,
+  children: IViewEngineDbTable
+}
+
 export interface IViewEngineDbTable {
   id: number;
+  name: string;
+  desc: string;
+  size: number;
   pk: string;
-  type: EViewEngineDbTableType;
   isReadOnly: boolean;
+  parent: number;
   controller: string;
+  children: IViewEngineDbTable;
   fields: IViewEngineField[];
 }
 

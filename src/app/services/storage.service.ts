@@ -14,11 +14,11 @@ export class StorageService {
   }
 
   public save(key: keyof STORAGE_KEYS, value: any) {
-    localStorage.setItem(STORAGE_IDS[key], value);
+    localStorage.setItem(STORAGE_IDS[key], JSON.stringify(value));
   }
 
   public get(key: keyof STORAGE_KEYS): any {
-    return localStorage.getItem(STORAGE_IDS[key]);
+    return JSON.parse(localStorage.getItem(STORAGE_IDS[key]));
   }
 
 }

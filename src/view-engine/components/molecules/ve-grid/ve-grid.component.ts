@@ -62,7 +62,7 @@ export class ViewEngineGridComponent implements OnInit {
     let quantity = this.columns.length;
     for (const column of this.columns) {
       if (column.sizePercent && column.sizePercent > 0) {
-        width -= column.size;
+        width -= column.sizePercent;
         quantity--;
       }
     }

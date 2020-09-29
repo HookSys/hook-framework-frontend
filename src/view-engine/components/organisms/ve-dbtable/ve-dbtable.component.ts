@@ -1,10 +1,14 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ViewEngineDbTableHandler } from "./ve-dbtable.handler";
 import { ViewEngineDbTableService } from "./ve-dbtable.service";
 import {
   IViewEngineDbTable,
   EViewEngineDbTableModes,
+  IViewEngineOpenRecordEvent,
+  IViewEngineDbTableParam
 } from "./ve-dbtable.interface";
+import { ViewEngineFeatureHandler } from '../ve-feature/ve-feature.handler';
+import { bindPathParams } from 'view-engine/components/common';
 
 @Component({
   selector: "ve-dbtable",
@@ -12,27 +16,38 @@ import {
   styleUrls: ["./ve-dbtable.component.scss"],
 })
 export class ViewEngineDbTableComponent implements OnInit {
-  @Input("id")
-  public id: string;
+  @Input("metadata")
+  public metadata: IViewEngineDbTable;
+
+  @Input("record")
+  public record: IViewEngineDbTableParam;
+
+  @Output()
+  openChildren = new EventEmitter<IViewEngineOpenRecordEvent>();
 
   public dbtable: IViewEngineDbTable;
   public isVisible: boolean = false;
   public mode: EViewEngineDbTableModes = EViewEngineDbTableModes.GRID;
   public selected: any;
   public data: any[] = [];
+  public isLoading = true;
 
   constructor(
     private dbtableHandler: ViewEngineDbTableHandler,
-    private dbtableService: ViewEngineDbTableService
+    private dbtableService: ViewEngineDbTableService,
+    private featureHandler: ViewEngineFeatureHandler,
   ) {}
 
   ngOnInit() {
-    this.dbtableService.get(this.id).subscribe((dbtable) => {
-      this.dbtable = dbtable;
+    this.isLoading = true;
+    this.dbtableService.getFields(this.metadata.id).subscribe((fields) => {
+      this.dbtable = { ...this.metadata, fields };
       this.dbtableHandler.fireOnBeforeLoad(this.dbtable).then((response) => {
         if (response) {
-          this.dbtableService.getData(dbtable.controller).subscribe((data) => {
+          const url = bindPathParams(this.record, this.metadata.controller);
+          this.dbtableService.getData(url).subscribe((data) => {
             this.data = data;
+            this.isLoading = false;
             setTimeout(() => this.isVisible = response);
           })
         }
@@ -58,7 +73,13 @@ export class ViewEngineDbTableComponent implements OnInit {
     this.dbtableHandler.fireOnChange(this.dbtable, event);
   }
 
-  onDblClickReg(data: any){
+  onDblClickReg(data: IViewEngineDbTableParam): void {
+    if (typeof this.metadata.children !== "undefined") {
+      this.openChildren.emit({
+        children: this.dbtable.children,
+        data: Object.assign({}, data, { pk: data[this.metadata.pk ]}),
+      })
+    }
     this.dbtableHandler.fireOnDblClick(this.dbtable, data);
   }
 
@@ -68,7 +89,6 @@ export class ViewEngineDbTableComponent implements OnInit {
   }
 
   onCancel() {
-    this.selected = null;
     this.mode = EViewEngineDbTableModes.GRID;
     this.dbtableHandler.fireOnChangeGridMode(this.dbtable, this.mode);
   }

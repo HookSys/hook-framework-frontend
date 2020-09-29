@@ -1,4 +1,7 @@
-export interface User {
+import { BaseModel } from './base.model';
+import { Policy } from './policy.model';
+
+export interface User extends BaseModel {
   id: string;
   firstname: string;
   lastname: string;
@@ -8,9 +11,6 @@ export interface User {
   phone: string;
   isBlock: boolean,
   isSuperUser: boolean,
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string;
-  updatedBy: string;
   lastLogin: string;
+  policies?: Omit<Policy, 'users'>[];
 }

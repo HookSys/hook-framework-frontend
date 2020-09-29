@@ -1,51 +1,53 @@
 <form *ngIf="metadata" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
-  <div *ngFor="let line of lines" class="form-group row">
-    <div *ngFor="let field of line.fields" [class]="'col-md-' + field.size" [ngSwitch]="field.type">
-      <div *ngSwitchCase="0">
-        <label class="label-input" [for]="field.name">{{ field.label }}</label>
-        <input
-          type="text"
-          class="form-control form-control-sm"
-          [id]="field.name"
-          [formControlName]="field.name"
-          [value]="data[field.name] || ''"
-          [name]="field.name"
-          (change)="onInputChange($event)"
-          (blur)="onInputBlur($event)"
-          (focus)="onInputFocus($event)">
-      </div>
+  <div class="form-content">
+    <div *ngFor="let line of lines" class="form-group row">
+      <div *ngFor="let field of line.fields" [class]="'col-md-' + field.size" [ngSwitch]="field.type">
+        <div *ngSwitchCase="0">
+          <label class="label-input" [for]="field.name">{{ field.label }}</label>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            [id]="field.name"
+            [formControlName]="field.name"
+            [value]="data[field.name] || ''"
+            [name]="field.name"
+            (change)="onInputChange($event)"
+            (blur)="onInputBlur($event)"
+            (focus)="onInputFocus($event)">
+        </div>
 
-      <div *ngSwitchCase="'cb'">
-        <label class="label-input" [for]="field.name">{{ field.label }}</label>
-        <select
-          class="form-control form-control-sm"
-          [id]="field.name"
-          [formControlName]="field.name"
-          [name]="field.name"
-          (change)="onInputChange($event)"
-          (blur)="onInputBlur($event)"
-          (focus)="onInputFocus($event)">
-          <option *ngFor="let domain of field.domain" [value]="domain.value">{{domain.label}}</option>
-        </select>
-      </div>
+        <div *ngSwitchCase="'cb'">
+          <label class="label-input" [for]="field.name">{{ field.label }}</label>
+          <select
+            class="form-control form-control-sm"
+            [id]="field.name"
+            [formControlName]="field.name"
+            [name]="field.name"
+            (change)="onInputChange($event)"
+            (blur)="onInputBlur($event)"
+            (focus)="onInputFocus($event)">
+            <option *ngFor="let domain of field.domain" [value]="domain.value">{{domain.label}}</option>
+          </select>
+        </div>
 
-      <div *ngSwitchCase="'rb'">
-        <label class="label-input">{{ field.label }}</label>
-        <div class="radio">
-          <label
-            *ngFor="let domain of field.domain"
-            class="radio-inline">
-            <input
-              type="radio"
-              [id]="field.name"
-              [formControlName]="field.name"
-              [name]="field.name"
-              (change)="onInputChange($event)"
-              (blur)="onInputBlur($event)"
-              (focus)="onInputFocus($event)"
-              [checked]="data[field.name] == domain.value"
-              [value]="domain.value">{{ domain.label }}
-          </label>
+        <div *ngSwitchCase="'rb'">
+          <label class="label-input">{{ field.label }}</label>
+          <div class="radio">
+            <label
+              *ngFor="let domain of field.domain"
+              class="radio-inline">
+              <input
+                type="radio"
+                [id]="field.name"
+                [formControlName]="field.name"
+                [name]="field.name"
+                (change)="onInputChange($event)"
+                (blur)="onInputBlur($event)"
+                (focus)="onInputFocus($event)"
+                [checked]="data[field.name] == domain.value"
+                [value]="domain.value">{{ domain.label }}
+            </label>
+          </div>
         </div>
       </div>
     </div>

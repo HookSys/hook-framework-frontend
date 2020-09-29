@@ -1,3 +1,5 @@
+import { ViewEngineFeatureHandler } from './components/organisms/ve-feature/ve-feature.handler';
+import { ViewEngineFeatureComponent } from './components/organisms/ve-feature/ve-feature.component';
 import { APP_INITIALIZER } from '@angular/core';
 import { NgModule } from '@angular/core';
 
@@ -13,6 +15,9 @@ import { ViewEngineDbTableHandler } from './components/organisms/ve-dbtable/ve-d
 import { ViewEngineFormComponent } from './components/molecules/ve-form/ve-form.component';
 import { ViewEngineDbTableService } from './components/organisms/ve-dbtable/ve-dbtable.service';
 import { ViewEngineFieldComponent } from './components/atoms/ve-field/ve-field.component';
+import { ViewEngineLoaderComponent } from './components/atoms/loader/ve-loader.component';
+import { ViewEnginePanelComponent } from './components/molecules/ve-panel/ve-panel.component';
+import { ViewEngineFeatureService } from './components/organisms/ve-feature/ve-feature.service';
 
 function InitViewEngine(forms: any = {}) {
   return function (formsService: ViewEngineDbTableHandler) {
@@ -40,6 +45,9 @@ function InitViewEngine(forms: any = {}) {
     ViewEngineFormComponent,
     ViewEngineGridComponent,
     ViewEngineFieldComponent,
+    ViewEngineLoaderComponent,
+    ViewEngineFeatureComponent,
+    ViewEnginePanelComponent,
   ],
   imports: [
     CommonModule,
@@ -48,13 +56,17 @@ function InitViewEngine(forms: any = {}) {
   ],
   providers: [
     ViewEngineDbTableHandler,
-    ViewEngineDbTableService
+    ViewEngineDbTableService,
+    ViewEngineFeatureHandler,
+    ViewEngineFeatureService
   ],
   exports: [
     ViewEngineComponent,
     ViewEngineDbTableComponent,
     ViewEngineGridComponent,
     ViewEngineFieldComponent,
+    ViewEngineFeatureComponent,
+    ViewEnginePanelComponent,
   ]
 })
 export class ViewEngineModule {
