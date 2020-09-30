@@ -8,7 +8,8 @@ import {
   IViewEngineDbTableParam
 } from "./ve-dbtable.interface";
 import { ViewEngineFeatureHandler } from '../ve-feature/ve-feature.handler';
-import { bindPathParams } from 'view-engine/components/common';
+import { bindPathParams, getDefaultValueByType } from 'view-engine/components/common';
+import { finalize, tap } from 'rxjs/operators';
 
 @Component({
   selector: "ve-dbtable",
@@ -30,16 +31,15 @@ export class ViewEngineDbTableComponent implements OnInit {
   public mode: EViewEngineDbTableModes = EViewEngineDbTableModes.GRID;
   public selected: any;
   public data: any[] = [];
-  public isLoading = true;
+  public isLoading = false;
 
   constructor(
     private dbtableHandler: ViewEngineDbTableHandler,
     private dbtableService: ViewEngineDbTableService,
-    private featureHandler: ViewEngineFeatureHandler,
   ) {}
 
   ngOnInit() {
-    this.isLoading = true;
+    this.toggleLoader();
     this.dbtableService.getFields(this.metadata.id).subscribe((fields) => {
       this.dbtable = { ...this.metadata, fields };
       this.dbtableHandler.fireOnBeforeLoad(this.dbtable).then((response) => {
@@ -47,7 +47,7 @@ export class ViewEngineDbTableComponent implements OnInit {
           const url = bindPathParams(this.record, this.metadata.controller);
           this.dbtableService.getData(url).subscribe((data) => {
             this.data = data;
-            this.isLoading = false;
+            this.toggleLoader()
             setTimeout(() => this.isVisible = response);
           })
         }
@@ -71,6 +71,10 @@ export class ViewEngineDbTableComponent implements OnInit {
 
   onInputChange(event: any) {
     this.dbtableHandler.fireOnChange(this.dbtable, event);
+  }
+
+  toggleLoader() {
+    this.isLoading = !this.isLoading;
   }
 
   onDblClickReg(data: IViewEngineDbTableParam): void {
@@ -111,16 +115,42 @@ export class ViewEngineDbTableComponent implements OnInit {
     this.mode = EViewEngineDbTableModes.NEW;
   }
 
-  onSave(newReg: any) {
+  onSave({ data, values }) {
     if (this.mode === EViewEngineDbTableModes.NEW) {
-      this.data.push(newReg);
+      const url = bindPathParams(this.record, this.metadata.controller);
+
+      this.toggleLoader();
+      this.dbtableService.createData(url, values).pipe(
+        finalize(() => this.toggleLoader())
+      ).subscribe((newReg) => this.data.push(newReg));
+
     } else if (this.mode === EViewEngineDbTableModes.EDIT) {
-      this.data = this.data.map((reg) => {
-        if (reg[this.dbtable.pk] === newReg[this.dbtable.pk]) {
-          return newReg;
+      const url = bindPathParams({
+        ...this.record,
+        __pk: data[this.metadata.pk]
+      }, this.metadata.controller.concat('/{__pk}'));
+
+      this.toggleLoader();
+      const serialized = this.dbtable.fields.reduce((request, field) => {
+        if (values[field.name]) {
+          return {
+            ...request,
+            [field.name]: getDefaultValueByType(values[field.name], field),
+          }
         }
-        return reg;
-      });
+        return request
+      }, {})
+      this.dbtableService.saveData(url, serialized).pipe(
+        finalize(() => this.toggleLoader())
+      ).subscribe(() => {
+        const newReg = { ...data, ...values };
+        this.data = this.data.map((reg) => {
+          if (reg[this.dbtable.pk] === newReg[this.dbtable.pk]) {
+            return newReg;
+          }
+          return reg;
+        });
+      })
     }
     this.selected = null;
     this.mode = EViewEngineDbTableModes.GRID;

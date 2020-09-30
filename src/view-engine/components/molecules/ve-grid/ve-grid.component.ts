@@ -35,7 +35,8 @@ export class ViewEngineGridComponent implements OnInit {
 
   private loadGrid(): void {
     if (this.metadata.fields) {
-      const fields = this.metadata.fields.sort((field2, field1) => {
+      const fields = this.metadata.fields
+        .sort((field2, field1) => {
         if (field1.position < field2.position) {
           return 1;
         } else if (field1.position > field2.position) {
@@ -45,7 +46,7 @@ export class ViewEngineGridComponent implements OnInit {
       });
 
       for (const field of fields) {
-        if (field.isVisible) {
+        if (field.isVisible && field.isColumnVisible) {
           if (Array.isArray(this.columns)) {
             this.columns.push(field);
           } else {

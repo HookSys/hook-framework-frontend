@@ -1,4 +1,4 @@
-<div *ngIf="isVisible" class="row h-100 no-gutters">
+<div *ngIf="handler.getSelectedFeature()" class="row h-100 no-gutters">
   <div class="col-sm-12">
     <ve-panel [entrypoint]="entrypoint"></ve-panel>
   </div>

@@ -41,6 +41,8 @@ export class AppComponent implements OnInit {
   }
 
   onExit() {
+    this.storageService.clear("AUTH");
+    this.storageService.clear("USER");
     this.logged = false;
   }
 

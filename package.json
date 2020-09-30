@@ -23,7 +23,7 @@
     "compass-mixins": "^0.12.10",
     "core-js": "^3.6.5",
     "font-awesome": "^4.7.0",
-    "ngx-mask": "^2.6.3",
+    "ngx-mask": "^2.9.6",
     "ngx-toastr": "^13.0.0",
     "react-iframe": "^1.8.0",
     "rxjs": "~6.4.0",

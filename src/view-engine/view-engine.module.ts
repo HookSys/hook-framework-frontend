@@ -1,7 +1,8 @@
 import { ViewEngineFeatureHandler } from './components/organisms/ve-feature/ve-feature.handler';
 import { ViewEngineFeatureComponent } from './components/organisms/ve-feature/ve-feature.component';
-import { APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgModule } from '@angular/core';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +39,9 @@ function InitViewEngine(forms: any = {}) {
   }
 }
 
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+
+
 @NgModule({
   declarations: [
     ViewEngineComponent,
@@ -53,6 +57,7 @@ function InitViewEngine(forms: any = {}) {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxMaskModule.forRoot({}),
   ],
   providers: [
     ViewEngineDbTableHandler,
@@ -63,10 +68,15 @@ function InitViewEngine(forms: any = {}) {
   exports: [
     ViewEngineComponent,
     ViewEngineDbTableComponent,
+    ViewEngineFormComponent,
     ViewEngineGridComponent,
     ViewEngineFieldComponent,
+    ViewEngineLoaderComponent,
     ViewEngineFeatureComponent,
     ViewEnginePanelComponent,
+  ],
+  schemas: [
+    NO_ERRORS_SCHEMA
   ]
 })
 export class ViewEngineModule {

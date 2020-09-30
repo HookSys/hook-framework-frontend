@@ -55,7 +55,9 @@ export class MainPageComponent implements AfterViewInit {
   exit: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private applicationStore: ApplicationStore) {
-    this.features = this.applicationStore.user.policies[0].features;
+    this.features = this.applicationStore.user.policies[0].features.map(
+      (f) => ({ ...f, icon: f.icon.toLowerCase() })
+    );
   }
 
   ngAfterViewInit() {

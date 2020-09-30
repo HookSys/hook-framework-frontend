@@ -6,10 +6,11 @@ import { StorageService } from './services/storage.service';
 
 @Injectable()
 export class AppInterceptor implements HttpInterceptor {
+    // baseUrl: String = 'https://serasa.afinata.com/api';
     baseUrl: String = 'http://localhost:3000/api';
-
     constructor(private storageService: StorageService,
-                private router: Router) { }
+                private router: Router) {
+                }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const authReq = req.clone({

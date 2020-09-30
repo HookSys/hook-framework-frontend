@@ -25,7 +25,7 @@ export class DynamicGridComponent implements OnChanges {
 
   constructor() { }
 
-  private onLineClick(reg: any): void {
+  public onLineClick(reg: any): void {
     this.select.emit(reg);
   }
 

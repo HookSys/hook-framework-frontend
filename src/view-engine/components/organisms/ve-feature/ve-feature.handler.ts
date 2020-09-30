@@ -37,7 +37,6 @@ export class ViewEngineFeatureHandler {
   }
 
   setSelectedFeature(id: number): void {
-    debugger
     this.features = this.features.map((f) => {
       if (f.feature.id === id) {
         return {

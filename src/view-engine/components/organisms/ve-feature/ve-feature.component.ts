@@ -16,21 +16,21 @@ export class ViewEngineFeatureComponent implements OnInit, OnDestroy {
   public entrypoint: IViewEngineDbTable;
 
   constructor(
-    private featureHandler: ViewEngineFeatureHandler,
+    private handler: ViewEngineFeatureHandler,
     private featureService: ViewEngineFeatureService
   ) {
   }
 
   public ngOnInit() {
-    this.featureHandler.registerComponent(this.feature, this);
+    this.handler.registerComponent(this.feature, this);
     this.featureService.get(this.feature.id).subscribe(({ entrypoint }) => {
       this.entrypoint = entrypoint;
-      this.featureHandler.setSelectedFeature(this.feature.id);
+      setTimeout(() => this.handler.setSelectedFeature(this.feature.id));
     })
   }
 
   public ngOnDestroy() {
-    this.featureHandler.setSelectedFeature(null);
-    this.featureHandler.unregister(this.feature);
+    this.handler.setSelectedFeature(null);
+    this.handler.unregister(this.feature);
   }
 }

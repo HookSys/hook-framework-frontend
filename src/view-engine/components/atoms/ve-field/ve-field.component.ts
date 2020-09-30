@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { getDefaultValueByType } from 'view-engine/components/common';
 import { IViewEngineDbTable } from 'view-engine/components/organisms/ve-dbtable/ve-dbtable.interface';
-import { IViewEngineField } from './ve-field.interface';
+import { EViewEngineFieldType, IViewEngineField } from './ve-field.interface';
 
 @Component({
   selector: 'app-ve-field',
@@ -35,6 +36,8 @@ export class ViewEngineFieldComponent implements OnChanges {
   lines: Array<Pick<IViewEngineField, 'line'> & { fields: IViewEngineField[] }> = [];
   model: any = {};
 
+  public ViewEngineFieldType = EViewEngineFieldType;
+
   constructor() {}
 
   ngOnChanges() {
@@ -47,7 +50,10 @@ export class ViewEngineFieldComponent implements OnChanges {
       for (const field of this.metadata.fields) {
         if (field.isVisible !== false) {
           this.addToLines(field);
-          const control = new FormControl(this.data[field.name] || '', this.getValidatorsFromField(field));
+          const control = new FormControl(
+            getDefaultValueByType(this.data[field.name], field),
+            this.getValidatorsFromField(field)
+          );
           if (field.isReadOnly) {
             control.disable({ onlySelf: true, emitEvent: true });
           }
@@ -75,7 +81,7 @@ export class ViewEngineFieldComponent implements OnChanges {
 
   private getValidatorsFromField(field: IViewEngineField): any[] {
     const validators = [];
-    if (field.isRequired) {
+    if (field.isRequired && field.type !== EViewEngineFieldType.CHECKBOX) {
       validators.push(Validators.required);
     }
     if (field.minLength) {
@@ -117,7 +123,7 @@ export class ViewEngineFieldComponent implements OnChanges {
 
   public onSubmit() {
     if (this.formGroup.valid) {
-      this.save.emit({ ...this.data, ...this.formGroup.value});
+      this.save.emit({ data: this.data, values: this.formGroup.value});
     }
   }
 
