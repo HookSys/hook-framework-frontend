@@ -13,7 +13,8 @@ export enum EViewEngineDbTableType {
 export enum EViewEngineDbTableModes {
   EDIT = 'edit',
   GRID = 'grid',
-  NEW = 'new'
+  NEW = 'new',
+  COPY = 'copy'
 }
 
 export interface IViewEngineDbTableParam {

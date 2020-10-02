@@ -3,7 +3,7 @@ import { ApplicationStore } from './../../store/application.store';
 import { Component, AfterViewInit, EventEmitter, Output } from '@angular/core';
 import { trigger, state, style, animate, transition, query, stagger, keyframes } from '@angular/animations';
 
-import { Feature } from '../../models';
+import { Feature, User } from '../../models';
 
 interface OpenedFeature extends Feature {
   selected: boolean;
@@ -50,14 +50,23 @@ export class MainPageComponent implements AfterViewInit {
 
   public openedFeatures: OpenedFeature[] = [];
   public features: Feature[] = [];
+  public user: User;
 
   @Output('exit')
   exit: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private applicationStore: ApplicationStore) {
-    this.features = this.applicationStore.user.policies[0].features.map(
-      (f) => ({ ...f, icon: f.icon.toLowerCase() })
-    );
+    this.user = this.applicationStore.user;
+    const { policies } = this.user
+    if (policies.length > 0 && policies[0].features) {
+      this.features = policies[0].features.map(
+        (f) => ({ ...f, icon: f.icon.toLowerCase() })
+      );
+    }
+  }
+
+  getUserFullName(): string {
+    return `${this.user.firstname} ${this.user.lastname}`;
   }
 
   ngAfterViewInit() {

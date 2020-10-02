@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { getDefaultValueByType } from 'view-engine/components/common';
 import { IViewEngineDbTable } from 'view-engine/components/organisms/ve-dbtable/ve-dbtable.interface';
-import { EViewEngineFieldType, IViewEngineField } from './ve-field.interface';
+import { EViewEngineFieldType, IViewEngineField } from './ve-text-input.interface';
 
 @Component({
   selector: 'app-ve-field',

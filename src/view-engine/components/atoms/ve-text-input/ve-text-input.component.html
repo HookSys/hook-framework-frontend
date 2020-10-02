@@ -1,0 +1,14 @@
+<div>
+  <label class="label-input" [for]="field.name">{{ field.label }}</label>
+  <input
+    type="text"
+    class="form-control form-control-sm"
+    [id]="field.name"
+    [formControlName]="field.name"
+    [value]="data[field.name] || ''"
+    [name]="field.name"
+    [mask]="field.mask"
+    (change)="onInputChange($event)"
+    (blur)="onInputBlur($event)"
+    (focus)="onInputFocus($event)">
+</div>

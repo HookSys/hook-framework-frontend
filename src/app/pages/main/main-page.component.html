@@ -2,9 +2,9 @@
   <div class="container-fluid mb-auto">
     <div class="row d-flex justify-content-end align-items-center h-100">
       <div class="user-info" (click)="openMenu()">
-        Daniel Franco <i class="material-icons">keyboard_arrow_down</i>
+        {{ getUserFullName() }} <i class="material-icons">keyboard_arrow_down</i>
         <div class="dropdown" [@dropdownMenu]="menu">
-          <div class="dropdown-item" (click)="changeCnpj()">Trocar de CNPJ</div>
+          <div class="dropdown-item" (click)="changeCnpj()">Trocar de Perfil</div>
           <div class="dropdown-item" (click)="logout()">Sair</div>
         </div>
       </div>
@@ -18,13 +18,16 @@
             <i class="material-icons unselectable">{{ feature.icon }}</i>
             <span class="text unselectable">{{ feature.name }}</span>
           </div>
+          <div *ngIf="!features || features.length === 0" class="message warning">
+            <span class="text unselectable">Não existem funcionalidades liberadas para esse perfíl.</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="container-fluid mt-auto d-flex justify-content-center">
     <div class="copyright">
-      © Copyright 2018 - Todos os direitos reservados
+      © Copyright 2020 - Todos os direitos reservados
     </div>
   </div>
 </div>

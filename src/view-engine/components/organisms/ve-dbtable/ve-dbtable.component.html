@@ -1,7 +1,7 @@
 <div class="db-table" *ngIf="!isLoading && isVisible">
   <h3 class="title unselectable">{{dbtable.name}}</h3>
   <app-ve-field
-    *ngIf="mode == 'edit' || mode == 'new'"
+    *ngIf="mode == 'edit' || mode == 'new' || mode === 'copy'"
     [metadata]="dbtable"
     [data]="selected"
     (save)="onSave($event)"
@@ -21,6 +21,8 @@
   </app-ve-grid>
 
   <div class="buttons" *ngIf="mode == 'grid'">
+    <button *ngIf="!dbtableHandler.hasClipboard()" type="button" (click)="onCopy()" class="btn btn-light btn-sm">Copiar</button>
+    <button *ngIf="dbtableHandler.hasClipboard()" type="button" (click)="onPaste()" class="btn btn-light btn-sm">Colar</button>
     <button type="button" (click)="onEdit()" class="btn btn-dark btn-sm" [disabled]="!selected">Editar</button>
     <button type="button" (click)="onAdd()" class="btn btn-dark btn-sm">Adicionar</button>
   </div>

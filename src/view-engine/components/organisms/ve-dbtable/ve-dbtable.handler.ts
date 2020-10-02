@@ -5,13 +5,29 @@ import {
   EViewEngineDbTableModes,
 } from "./ve-dbtable.interface";
 import { VIEW_ENGINE_DBTABLE_NOTATION } from "./ve-dbtable.decorator";
+import { IViewEngineField } from 'view-engine/components/atoms/ve-field/ve-field.interface';
 
 @Injectable()
 export class ViewEngineDbTableHandler {
   private dbtables: IViewEngineDbTableInstance[] = [];
+  private clipboard: IViewEngineField[];
 
   register(DbTable: IViewEngineDbTableInstance) {
     this.dbtables.push(new DbTable());
+  }
+
+  copyToClipboard(dbtable: IViewEngineDbTable): void {
+    this.clipboard = [].concat(dbtable.fields.filter((field) => field.name !== dbtable.pk));
+  }
+
+  hasClipboard(): boolean {
+    return this.clipboard && this.clipboard.length > 0;
+  }
+
+  pasteFromClipboard(): IViewEngineField[] {
+    const result = [...this.clipboard];
+    this.clipboard = [];
+    return result
   }
 
   fireOnDblClick(dbtable: IViewEngineDbTable, data: any): void {

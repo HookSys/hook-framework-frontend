@@ -10,6 +10,7 @@ import {
 import { ViewEngineFeatureHandler } from '../ve-feature/ve-feature.handler';
 import { bindPathParams, getDefaultValueByType } from 'view-engine/components/common';
 import { finalize, tap } from 'rxjs/operators';
+import { EViewEngineFieldType, IViewEngineField } from 'view-engine/components/atoms/ve-field/ve-field.interface';
 
 @Component({
   selector: "ve-dbtable",
@@ -32,6 +33,7 @@ export class ViewEngineDbTableComponent implements OnInit {
   public selected: any;
   public data: any[] = [];
   public isLoading = false;
+  private newFields: IViewEngineField[];
 
   constructor(
     private dbtableHandler: ViewEngineDbTableHandler,
@@ -93,8 +95,31 @@ export class ViewEngineDbTableComponent implements OnInit {
   }
 
   onCancel() {
+    const isInCopy = this.mode === EViewEngineDbTableModes.COPY;
     this.mode = EViewEngineDbTableModes.GRID;
     this.dbtableHandler.fireOnChangeGridMode(this.dbtable, this.mode);
+    if (isInCopy&& this.newFields.length > 0) {
+      setTimeout(() => {
+        this.runPaste()
+      })
+    }
+  }
+
+  onCopy() {
+    this.dbtableHandler.copyToClipboard(this.dbtable);
+  }
+
+  onPaste() {
+    this.newFields = this.dbtableHandler.pasteFromClipboard()
+    this.runPaste();
+  }
+
+  runPaste() {
+    this.onSelectReg(this.newFields.shift())
+    setTimeout(() => {
+      this.mode = EViewEngineDbTableModes.COPY;
+      this.dbtableHandler.fireOnChangeGridMode(this.dbtable, this.mode);
+    });
   }
 
   onAdd() {
@@ -115,14 +140,38 @@ export class ViewEngineDbTableComponent implements OnInit {
     this.mode = EViewEngineDbTableModes.NEW;
   }
 
+  serialize(values) {
+    return this.dbtable.fields.reduce((request, field) => {
+      if (field.name === this.dbtable.pk) {
+        return request
+      }
+      if (values[field.name] || field.type === EViewEngineFieldType.CHECKBOX) {
+        return {
+          ...request,
+          [field.name]: getDefaultValueByType(values[field.name], field),
+        }
+      }
+      return request
+    }, {})
+  }
+
   onSave({ data, values }) {
-    if (this.mode === EViewEngineDbTableModes.NEW) {
+    if ([EViewEngineDbTableModes.NEW, EViewEngineDbTableModes.COPY].includes(this.mode)) {
       const url = bindPathParams(this.record, this.metadata.controller);
 
       this.toggleLoader();
-      this.dbtableService.createData(url, values).pipe(
+      const serialized = this.serialize(values);
+      const isInCopy = this.mode === EViewEngineDbTableModes.COPY;
+      this.dbtableService.createData(url, serialized).pipe(
         finalize(() => this.toggleLoader())
-      ).subscribe((newReg) => this.data.push(newReg));
+      ).subscribe((newReg) => {
+        this.data.push(newReg);
+        if (isInCopy && this.newFields.length > 0) {
+          setTimeout(() => {
+            this.runPaste()
+          })
+        }
+      });
 
     } else if (this.mode === EViewEngineDbTableModes.EDIT) {
       const url = bindPathParams({
@@ -131,15 +180,7 @@ export class ViewEngineDbTableComponent implements OnInit {
       }, this.metadata.controller.concat('/{__pk}'));
 
       this.toggleLoader();
-      const serialized = this.dbtable.fields.reduce((request, field) => {
-        if (values[field.name]) {
-          return {
-            ...request,
-            [field.name]: getDefaultValueByType(values[field.name], field),
-          }
-        }
-        return request
-      }, {})
+      const serialized = this.serialize(values);
       this.dbtableService.saveData(url, serialized).pipe(
         finalize(() => this.toggleLoader())
       ).subscribe(() => {

@@ -65,15 +65,17 @@ export class LoginPageComponent implements AfterViewInit {
       this.form.get('password').value
     ).pipe(
       tap((token) => this.storageService.save('AUTH', token)),
-      finalize(() => this.isLoading = false),
     ).subscribe(() => {
-      setTimeout(() => this.authService.me().subscribe((user) => {
+      setTimeout(() => this.authService.me().pipe(
+        finalize(() => this.isLoading = false),
+      ).subscribe((user) => {
         this.applicationStore.user = user;
         this.storageService.save('USER', user)
         this.animation = 'step2';
       }))
     }, () => {
       this.message = 'Credenciais incorretas.';
+      this.isLoading = false;
     });
   }
 
