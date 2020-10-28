@@ -40,7 +40,7 @@ export interface IViewEngineDbTable {
 }
 
 export interface IViewEngineDbTableHandler {
-  onBeforeSave?(dbtable: IViewEngineDbTable): Promise<boolean>;
+  onBeforeSave?(dbtables: IViewEngineDbTableInstance, table: IViewEngineDbTable, values: any): Promise<boolean>;
   onAfterSave?(dbtable: IViewEngineDbTable, response: any): void;
   onBeforeLoad?(dbtable: IViewEngineDbTable): Promise<boolean>;
   onAfterLoad?(dbtable: IViewEngineDbTable): void;

@@ -102,6 +102,22 @@ export class ViewEngineDbTableHandler {
     });
   }
 
+  fireOnBeforeSave(dbtable: IViewEngineDbTable, values: any): Promise<boolean> {
+    return new Promise((resolve) => {
+      const index = this.dbtables.findIndex((veDbTable) => {
+        return (
+          veDbTable[VIEW_ENGINE_DBTABLE_NOTATION].id === dbtable.id &&
+          typeof veDbTable.onBeforeSave === "function"
+        )
+      });
+      if (index >= 0) {
+        this.dbtables[index].onBeforeSave(this.dbtables[index], dbtable, values).then(resolve)
+      } else {
+        setTimeout(() => resolve(true));
+      }
+    });
+  }
+
   fireOnChangeGridMode(
     dbtable: IViewEngineDbTable,
     mode: EViewEngineDbTableModes

@@ -67,4 +67,8 @@ export class ViewEngineDbTableService {
       updatedBy: this.appStore.user.username,
     } );
   }
+
+  public deleteData( endpoint: string ): Observable<any> {
+    return this.http.delete<any>( endpoint);
+  }
 }

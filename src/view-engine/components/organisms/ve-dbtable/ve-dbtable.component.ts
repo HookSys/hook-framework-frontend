@@ -83,7 +83,7 @@ export class ViewEngineDbTableComponent implements OnInit {
     if (typeof this.metadata.children !== "undefined") {
       this.openChildren.emit({
         children: this.dbtable.children,
-        data: Object.assign({}, data, { pk: data[this.metadata.pk ]}),
+        data: Object.assign({}, data, { pk: data[this.metadata.pk]}),
       })
     }
     this.dbtableHandler.fireOnDblClick(this.dbtable, data);
@@ -153,6 +153,16 @@ export class ViewEngineDbTableComponent implements OnInit {
       }
       return request
     }, {})
+  }
+
+  onDelete() {
+    this.toggleLoader();
+    const url = bindPathParams(this.record, this.metadata.controller);
+    this.dbtableService.deleteData(url).pipe(
+      finalize(() => this.toggleLoader())
+    ).subscribe(() => {
+      this.ngOnInit();
+    });
   }
 
   onSave({ data, values }) {
