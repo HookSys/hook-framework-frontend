@@ -5,7 +5,7 @@ import {
   EViewEngineDbTableModes,
 } from "./ve-dbtable.interface";
 import { VIEW_ENGINE_DBTABLE_NOTATION } from "./ve-dbtable.decorator";
-import { IViewEngineField } from 'view-engine/components/atoms/ve-field/ve-field.interface';
+import { IViewEngineField } from 'view-engine/components/molecules/ve-form/ve-form.interface';
 
 @Injectable()
 export class ViewEngineDbTableHandler {

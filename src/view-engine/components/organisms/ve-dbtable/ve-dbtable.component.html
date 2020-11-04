@@ -1,6 +1,6 @@
 <div class="db-table" *ngIf="!isLoading && isVisible">
   <h3 class="title unselectable">{{dbtable.name}}</h3>
-  <app-ve-field
+  <app-ve-form
     *ngIf="mode == 'edit' || mode == 'new' || mode === 'copy'"
     [metadata]="dbtable"
     [data]="selected"
@@ -9,7 +9,7 @@
     (blur)="onInputBlur($event)"
     (change)="onInputChange($event)"
     (cancel)="onCancel()">
-  </app-ve-field>
+  </app-ve-form>
 
   <app-ve-grid
     *ngIf="mode == 'grid'"

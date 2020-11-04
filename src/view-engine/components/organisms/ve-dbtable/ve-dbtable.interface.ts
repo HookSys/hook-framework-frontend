@@ -1,4 +1,4 @@
-import { IViewEngineField } from '../../atoms/ve-field/ve-field.interface';
+import { IViewEngineField } from '../../molecules/ve-form/ve-form.interface';
 import { VIEW_ENGINE_DBTABLE_NOTATION } from './ve-dbtable.decorator';
 
 export interface IViewEngineDbTableDecorator {

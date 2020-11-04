@@ -11,3 +11,17 @@
     color: $gray-color;
     text-align: left;
 }
+
+.radio {
+  label {
+      margin-right: 10px;
+      cursor: pointer;
+  }
+  input[type="radio"] {
+      margin-right: 5px;
+  }
+
+  &.checkbox {
+    margin-top: 32px;
+  }
+}

@@ -2,18 +2,28 @@ import { Component, OnInit, Input, Self, Optional } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
-  selector: 've-text-input',
-  templateUrl: './ve-text-input.component.html',
-  styleUrls: ['./ve-text-input.component.scss']
+  selector: 've-listbox',
+  templateUrl: './ve-listbox.component.html',
+  styleUrls: ['./ve-listbox.component.scss']
 })
-export class ViewEngineTextInput implements OnInit, ControlValueAccessor {
+export class ViewEngineListBox implements OnInit, ControlValueAccessor {
   @Input() label: string = '';
-  @Input() placeholder: string = '';
   @Input() id: string;
   @Input() name: string;
   @Input() disabled: boolean;
-  @Input() mask: string = '';
-  @Input() type: 'text' | 'email' | 'password' | 'number' = 'text';
+  data: {id: string, text: string}[] = [
+    { text: "Hennessey Venom", id: "list-01" },
+    { text: "Bugatti Chiron", id: "list-02" },
+    { text: "Bugatti Veyron Super Sport", id: "list-03" },
+    { text: "SSC Ultimate Aero", id: "list-04" },
+    { text: "Koenigsegg CCR", id: "list-05" },
+    { text: "McLaren F1", id: "list-06" },
+    { text: "Aston Martin One- 77", id: "list-07" },
+    { text: "Jaguar XJ220", id: "list-08" },
+    { text: "McLaren P1", id: "list-09" },
+    { text: "Ferrari LaFerrari", id: "list-10" },
+    { text: "Zenvo ST1", id: "list-11" },
+    { text: "Lamborghini Veneno", id: "list-12" }];
 
   value: any = '';
 

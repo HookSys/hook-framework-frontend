@@ -1,0 +1,23 @@
+<div>
+  <label class="label-input" [for]="name">{{ label }}</label>
+  <div class="input-group">
+    <input
+      ngbDatepicker
+      #d="ngbDatepicker"
+      class="form-control form-control-sm"
+      [id]="id"
+      [value]="value"
+      [placeholder]="placeholder"
+      [name]="name"
+      [disabled]="disabled"
+      (change)="onChange($event)"
+      (blur)="onTouched($event)"
+      mask="99/99/9999"
+      (focus)="onFocus($event)">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary " [disabled]="disabled" (click)="d.toggle()" type="button">
+        <i class="material-icons">today_icon</i>
+      </button>
+    </div>
+  </div>
+</div>

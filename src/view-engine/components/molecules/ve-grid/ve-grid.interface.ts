@@ -1,3 +1,3 @@
-import { IViewEngineField } from '../../atoms/ve-field/ve-field.interface';
+import { IViewEngineField } from '../../molecules/ve-form/ve-form.interface';
 
 export type IViewEngineColumn = IViewEngineField & { sort?: string};

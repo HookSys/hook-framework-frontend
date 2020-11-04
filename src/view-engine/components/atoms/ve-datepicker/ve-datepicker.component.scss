@@ -11,3 +11,13 @@
     color: $gray-color;
     text-align: left;
 }
+
+.btn-outline-secondary {
+  position: relative;
+  padding: 0px 20px;
+  i {
+    position: absolute;
+    margin-left: -12px;
+    margin-top: -11px;
+  }
+}

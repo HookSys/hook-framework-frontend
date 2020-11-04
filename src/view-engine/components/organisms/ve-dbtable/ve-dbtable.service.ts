@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { APP_ENDPOINTS } from "view-engine/const/endpoints.config";
 import { IViewEngineDbTable } from "./ve-dbtable.interface";
-import { IViewEngineField } from "view-engine/components/atoms/ve-field/ve-field.interface";
+import { IViewEngineField } from "view-engine/components/molecules/ve-form/ve-form.interface";
 import { ApplicationStore } from "src/app/store/application.store";
 
 @Injectable()

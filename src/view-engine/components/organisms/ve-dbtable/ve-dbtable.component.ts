@@ -10,7 +10,7 @@ import {
 import { ViewEngineFeatureHandler } from '../ve-feature/ve-feature.handler';
 import { bindPathParams, getDefaultValueByType } from 'view-engine/components/common';
 import { finalize, tap } from 'rxjs/operators';
-import { EViewEngineFieldType, IViewEngineField } from 'view-engine/components/atoms/ve-field/ve-field.interface';
+import { EViewEngineFieldType, IViewEngineField } from 'view-engine/components/molecules/ve-form/ve-form.interface';
 
 @Component({
   selector: "ve-dbtable",

@@ -1,3 +1,83 @@
 <div *ngIf="isVisible">
-  Form Test
+  <form *ngIf="metadata" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+    <div class="form-content">
+      <div *ngFor="let line of lines" class="form-group row">
+        <div *ngFor="let field of line.fields" [class]="'col-md-' + field.size">
+          <ve-text-input
+            *ngIf="[ViewEngineFieldType.TEXT, ViewEngineFieldType.NUMBER].includes(field.type)"
+            [type]="field.type"
+            [label]="field.label"
+            [id]="field.name"
+            [formControlName]="field.name"
+            [name]="field.name"
+            [mask]="field.mask"
+            (change)="onInputChange($event)"
+            (blur)="onInputBlur($event)"
+            (focus)="onInputFocus($event)">
+          </ve-text-input>
+
+          <ve-text-area
+            *ngIf="field.type === ViewEngineFieldType.TEXTAREA"
+            [id]="field.name"
+            [label]="field.label"
+            [formControlName]="field.name"
+            [name]="field.name"
+            (change)="onInputChange($event)"
+            (blur)="onInputBlur($event)"
+            (focus)="onInputFocus($event)">
+          </ve-text-area>
+
+          <ve-datepicker
+            *ngIf="field.type === ViewEngineFieldType.DATETIME"
+            [id]="field.name"
+            [label]="field.label"
+            [formControlName]="field.name"
+            [name]="field.name"
+            (change)="onInputChange($event)"
+            (blur)="onInputBlur($event)"
+            (focus)="onInputFocus($event)">
+          </ve-datepicker>
+
+          <ve-select
+            *ngIf="field.type === ViewEngineFieldType.COMBO && field.domain"
+            [label]="field.label"
+            [id]="field.name"
+            [options]="field.domain.options"
+            [formControlName]="field.name"
+            [name]="field.name"
+            (change)="onInputChange($event)"
+            (blur)="onInputBlur($event)"
+            (focus)="onInputFocus($event)">
+          </ve-select>
+
+          <ve-radio-button
+            *ngIf="field.type === ViewEngineFieldType.RADIO && field.domain"
+            [label]="field.label"
+            [id]="field.name"
+            [options]="field.domain.options"
+            [formControlName]="field.name"
+            [name]="field.name"
+            (change)="onInputChange($event)"
+            (blur)="onInputBlur($event)"
+            (focus)="onInputFocus($event)">
+          </ve-radio-button>
+
+          <ve-checkbox
+            *ngIf="field.type ===  ViewEngineFieldType.CHECKBOX"
+            [label]="field.desc"
+            [id]="field.name"
+            [formControlName]="field.name"
+            [name]="field.name"
+            (change)="onInputChange($event)"
+            (blur)="onInputBlur($event)"
+            (focus)="onInputFocus($event)">
+          </ve-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button type="button" (click)="onCancel()" class="btn btn-outline-dark btn-sm">Cancelar</button>
+      <button type="submit" class="btn btn-dark btn-sm">Salvar</button>
+    </div>
+  </form>
 </div>

@@ -1,0 +1,14 @@
+<div class="radio checkbox">
+  <label
+    class="radio-inline">
+    <input
+      type="checkbox"
+      [id]="id"
+      [disabled]="disabled"
+      [name]="name"
+      (change)="onChange(!value)"
+      (blur)="onTouched(!value)"
+      (focus)="onFocus(!value)"
+      [checked]="value"> {{ label }}
+  </label>
+</div>

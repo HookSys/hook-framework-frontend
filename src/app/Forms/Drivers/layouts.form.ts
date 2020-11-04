@@ -11,7 +11,6 @@ export class LayoutsForm implements IViewEngineDbTableHandler {
   }
 
   async onBeforeSave(dbtable) {
-    console.log(dbtable)
     return false
   }
 }

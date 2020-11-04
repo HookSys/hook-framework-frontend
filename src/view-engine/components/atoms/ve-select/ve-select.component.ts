@@ -2,18 +2,16 @@ import { Component, OnInit, Input, Self, Optional } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
-  selector: 've-text-input',
-  templateUrl: './ve-text-input.component.html',
-  styleUrls: ['./ve-text-input.component.scss']
+  selector: 've-select',
+  templateUrl: './ve-select.component.html',
+  styleUrls: ['./ve-select.component.scss']
 })
-export class ViewEngineTextInput implements OnInit, ControlValueAccessor {
+export class ViewEngineSelect implements OnInit, ControlValueAccessor {
   @Input() label: string = '';
-  @Input() placeholder: string = '';
   @Input() id: string;
   @Input() name: string;
   @Input() disabled: boolean;
-  @Input() mask: string = '';
-  @Input() type: 'text' | 'email' | 'password' | 'number' = 'text';
+  @Input() options: {id: string | number, label: string}[];
 
   value: any = '';
 

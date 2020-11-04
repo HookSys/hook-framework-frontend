@@ -1,19 +1,23 @@
+import { CustomAdapter, CustomDateParser, CustomDateParserFormatter } from './ve-datepicker.adapter';
+import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, Input, Self, Optional } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
-  selector: 've-text-input',
-  templateUrl: './ve-text-input.component.html',
-  styleUrls: ['./ve-text-input.component.scss']
+  selector: 've-datepicker',
+  templateUrl: './ve-datepicker.component.html',
+  styleUrls: ['./ve-datepicker.component.scss'],
+  providers: [
+    {provide: NgbDateAdapter, useClass: CustomDateParser},
+    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
+  ]
 })
-export class ViewEngineTextInput implements OnInit, ControlValueAccessor {
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
+export class ViewEngineDatePicker implements OnInit, ControlValueAccessor {
+  @Input() label?: string = '';
+  @Input() placeholder?: string = '';
   @Input() id: string;
   @Input() name: string;
   @Input() disabled: boolean;
-  @Input() mask: string = '';
-  @Input() type: 'text' | 'email' | 'password' | 'number' = 'text';
 
   value: any = '';
 
@@ -29,7 +33,7 @@ export class ViewEngineTextInput implements OnInit, ControlValueAccessor {
   ngOnInit() {}
 
   writeValue(value: any): void {
-    this.value = value;
+    this.value = new Date(value).toLocaleDateString('pt-BR');
   }
 
   setDisabledState(isDisabled: boolean): void {

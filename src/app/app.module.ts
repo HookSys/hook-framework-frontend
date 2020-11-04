@@ -18,6 +18,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StorageService } from './services/storage.service';
 import { ApplicationStore } from './store/application.store';
 import { AppRoutingModule } from './app-routing.module';
+import { ListViewModule } from '@syncfusion/ej2-angular-lists';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     NgxMaskModule.forRoot({}),
     ViewEngineModule.forRoot(ViewEngineForms),
+    ListViewModule,
   ],
   providers: [
     AuthService,

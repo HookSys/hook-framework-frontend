@@ -1,16 +1,16 @@
 <div>
   <label class="label-input" [for]="name">{{ label }}</label>
-  <input
-    #input
-    [type]="type"
+  <textarea
+    #area
     class="form-control form-control-sm"
     [id]="id"
-    [value]="value"
+    [name]="name"
     [placeholder]="placeholder"
     [name]="name"
     [disabled]="disabled"
-    [mask]="mask"
-    (change)="onChange(input.value)"
-    (blur)="onTouched(input.value)"
-    (focus)="onFocus(input.value)">
+    (change)="onChange(area.value)"
+    (blur)="onTouched(area.value)"
+    (focus)="onFocus(area.value)">
+    {{value}}
+  </textarea>
 </div>

@@ -1,0 +1,20 @@
+<div>
+  <label class="label-input" [for]="name">{{ label }}</label>
+  <select
+    #select
+    class="form-control form-control-sm"
+    [id]="id"
+    [disabled]="disabled"
+    [name]="name"
+    [value]="value"
+    (change)="onChange(select.value)"
+    (blur)="onTouched(select.value)"
+    (focus)="onFocus(select.value)">
+    <option
+      *ngFor="let option of options"
+      [selected]="value === option.id"
+      [value]="option.id">
+        {{option.value}}
+      </option>
+  </select>
+</div>
