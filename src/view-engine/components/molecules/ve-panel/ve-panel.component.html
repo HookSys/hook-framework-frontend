@@ -1,11 +1,13 @@
-<div class="d-flex w-100 h-100 mx-0 flex-nowrap">
-    <div
-      *ngFor="let panel of panels"
-      [class]="'
+<div *ngIf="schematic && component" class="d-flex w-100 h-100 mx-0 flex-nowrap">
+  <div
+    *ngFor="let panel of schematic.childs"
+    [class]="
+      '
         app-content
-        col-' + (panels.length === 1 ? 12 : panel.size)
-      ">
-        <ve-dbtable [metadata]="panel.metadata" [record]="panel.record" (openChildren)="openPanel($event)"></ve-dbtable>
-        <!-- <app-schematics [code]="slot"></app-schematics> -->
-    </div>
+        col-' +
+      (sizes[component.size])
+    "
+  >
+    <ve-schematics [schematic]="panel"></ve-schematics>
+  </div>
 </div>

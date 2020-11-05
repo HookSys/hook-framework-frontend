@@ -1,1 +1,21 @@
-<ve-feature [feature]="feature"></ve-feature>
+
+<div *ngIf="features.length > 0" class="h-100 d-flex flex-column justify-content-between align-items-start">
+  <div class="navbar">
+    <div (click)="onSpotlightClickIn()" class="spotlight">
+      <i class="material-icons">menu</i>
+    </div>
+    <div
+      *ngFor="let feature of features"
+      class="feature-name"
+      (click)="selectFunction(feature)"
+      [ngClass]="{ 'selected': feature.selected }">
+      {{ feature.name }}
+      <i *ngIf="feature.selected" (click)="closeFunction(feature)" class="material-icons">highlight_off</i>
+    </div>
+  </div>
+  <div class="container-fluid h-100 main-app px-0">
+    <div *ngFor="let feature of features" class="app-container" [ngClass]="{ 'd-none': !feature.selected }">
+      <ve-feature [feature]="feature"></ve-feature>
+    </div>
+  </div>
+</div>

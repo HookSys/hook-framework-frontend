@@ -1,10 +1,9 @@
-import { ApplicationStore } from './../../store/application.store';
-import { StorageService } from '../../services/storage.service';
+import {  Store } from '@ngxs/store';
 import { Component, AfterViewInit, Output, EventEmitter, ElementRef } from '@angular/core';
-import { trigger, state, style, animate, transition, query, stagger, keyframes } from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { tap, map, timeout, finalize, catchError } from 'rxjs/operators'
+import { finalize } from 'rxjs/operators'
+import { Login } from 'view-engine/store/auth/auth.actions';
 
 @Component({
   selector: 'app-login-page',
@@ -32,9 +31,7 @@ export class LoginPageComponent implements AfterViewInit {
 
   constructor(
     private elementRef: ElementRef,
-    private authService: AuthService,
-    private applicationStore: ApplicationStore,
-    private storageService: StorageService
+    private store: Store,
   ) {
     this.form = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -60,22 +57,15 @@ export class LoginPageComponent implements AfterViewInit {
   public login(): void {
     this.isLoading = true;
     this.message = null;
-    this.authService.auth(
-      this.form.get('username').value,
-      this.form.get('password').value
-    ).pipe(
-      tap((token) => this.storageService.save('AUTH', token)),
+    this.store.dispatch(new Login({
+      username: this.form.get('username').value,
+      password: this.form.get('password').value
+    })).pipe(
+      finalize(() => this.isLoading = false),
     ).subscribe(() => {
-      setTimeout(() => this.authService.me().pipe(
-        finalize(() => this.isLoading = false),
-      ).subscribe((user) => {
-        this.applicationStore.user = user;
-        this.storageService.save('USER', user)
-        this.animation = 'step2';
-      }))
+      this.animation = 'step2';
     }, () => {
       this.message = 'Credenciais incorretas.';
-      this.isLoading = false;
     });
   }
 

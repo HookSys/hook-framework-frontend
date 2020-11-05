@@ -1,4 +1,3 @@
-import { options } from '../../../view-engine.module';
 import { Component, OnInit, Input, Self, Optional } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 

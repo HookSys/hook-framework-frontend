@@ -4,11 +4,10 @@ import { Observable } from "rxjs";
 import { APP_ENDPOINTS } from "view-engine/const/endpoints.config";
 import { IViewEngineDbTable } from "./ve-dbtable.interface";
 import { IViewEngineField } from "view-engine/components/molecules/ve-form/ve-form.interface";
-import { ApplicationStore } from "src/app/store/application.store";
 
 @Injectable()
 export class ViewEngineDbTableService {
-  constructor( private http: HttpClient, private appStore: ApplicationStore ) { }
+  constructor( private http: HttpClient) { }
 
   public get( id: string ): Observable<IViewEngineDbTable> {
     const inclusionFilter = {
@@ -56,7 +55,6 @@ export class ViewEngineDbTableService {
     return this.http.post<any>( endpoint, {
       ...data,
       createdAt: new Date().toISOString(),
-      createdBy: this.appStore.user.username,
     } );
   }
 
@@ -64,7 +62,6 @@ export class ViewEngineDbTableService {
     return this.http.patch<any>( endpoint, {
       ...data,
       updatedAt: new Date().toISOString(),
-      updatedBy: this.appStore.user.username,
     } );
   }
 

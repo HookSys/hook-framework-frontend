@@ -1,5 +1,5 @@
-<div *ngIf="handler.getSelectedFeature()" class="row h-100 no-gutters">
+<div *ngIf="feature.selected" class="row h-100 no-gutters">
   <div class="col-sm-12">
-    <ve-panel [entrypoint]="entrypoint"></ve-panel>
+    <ve-schematics [schematic]="feature.schematicObject"></ve-schematics>
   </div>
 </div>

@@ -1,13 +1,13 @@
-import { IViewEngineFeatureHandler } from './../../../view-engine/components/organisms/ve-feature/ve-feature.interface';
-import { ApplicationStore } from './../../store/application.store';
+import { Observable } from 'rxjs';
+import { FeaturesState } from './../../../view-engine/store/engine/features/features.state';
 import { Component, AfterViewInit, EventEmitter, Output } from '@angular/core';
-import { trigger, state, style, animate, transition, query, stagger, keyframes } from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
-import { Feature, User } from '../../models';
+import { Select, Selector, Store } from '@ngxs/store';
+import { Feature, UserWithRelations} from 'view-engine/api/models';
+import { UserState } from 'view-engine/store/user/user.state';
+import { OpenFeature } from 'view-engine/store/engine/features/features.actions';
 
-interface OpenedFeature extends Feature {
-  selected: boolean;
-}
 
 @Component({
   selector: 'app-main-page',
@@ -43,26 +43,25 @@ interface OpenedFeature extends Feature {
 export class MainPageComponent implements AfterViewInit {
   public visible = false;
   public menu = false;
-  public featureOpened = false;
-  public selectedFeature: Feature;
   public spotlightOpened = false;
   public spotlightChildrenOpened = false;
-
-  public openedFeatures: OpenedFeature[] = [];
+  featureOpened: boolean = false;
   public features: Feature[] = [];
-  public user: User;
+  public user: UserWithRelations;
 
   @Output('exit')
   exit: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private applicationStore: ApplicationStore) {
-    this.user = this.applicationStore.user;
-    const { policies } = this.user
-    if (policies.length > 0 && policies[0].features) {
-      this.features = policies[0].features.map(
-        (f) => ({ ...f, icon: f.icon.toLowerCase() })
-      );
-    }
+  constructor(private store: Store) {
+    this.user = this.store.selectSnapshot(UserState.getUser);
+    this.features = this.store.selectSnapshot(UserState.getFeatures);
+    this.store.select(FeaturesState.hasFeatureOpened).subscribe(hasFeatureOpened => {
+      if (this.featureOpened !== hasFeatureOpened) {
+        if (!hasFeatureOpened)
+          setTimeout(() => this.visible = true, 300);
+      }
+      this.featureOpened = hasFeatureOpened;
+    })
   }
 
   getUserFullName(): string {
@@ -76,34 +75,13 @@ export class MainPageComponent implements AfterViewInit {
   onFeatureClick(feature: Feature) {
     if (!this.spotlightOpened) {
       this.visible = false;
-      this.selectedFeature = feature;
       setTimeout(() => {
-        this.featureOpened = true;
-        this.openedFeatures.push({
-          ...feature,
-          selected: true
-        });
+        this.store.dispatch(new OpenFeature(feature.id));
       }, 500);
     } else {
-      this.selectedFeature = feature;
-      this.openedFeatures = this.openedFeatures.map(openedFeature => {
-        openedFeature.selected = false;
-        return openedFeature;
-      });
-      this.openedFeatures.push({
-        ...feature,
-        selected: true
-      });
+      this.store.dispatch(new OpenFeature(feature.id));
       this.spotlightOpened = false;
     }
-  }
-
-  selectFunction(feature: Feature) {
-    this.selectedFeature = feature;
-    this.openedFeatures = this.openedFeatures.map(openedFeature => {
-      openedFeature.selected = (openedFeature.code === feature.code);
-      return openedFeature;
-    });
   }
 
   openMenu() {
@@ -118,18 +96,6 @@ export class MainPageComponent implements AfterViewInit {
     setTimeout(() => {
       this.exit.emit();
     }, 500);
-  }
-
-  closeFunction(feature: Feature) {
-    this.openedFeatures = this.openedFeatures.filter(feat => feat.code !== feature.code);
-    if (this.openedFeatures.length > 0) {
-      this.openedFeatures[0].selected = true;
-      this.selectedFeature = this.openedFeatures[0];
-    } else {
-      this.featureOpened = false;
-      this.selectedFeature = null;
-      setTimeout(() => this.visible = true, 300);
-    }
   }
 
   onSpotlightClick() {

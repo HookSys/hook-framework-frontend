@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { ApplicationStore } from './store/application.store';
-import { StorageService } from './services/storage.service';
-import { User } from './models/user.model';
+import { Store } from '@ngxs/store';
+import { AuthState } from 'view-engine/store/auth/auth.state';
+import { Logout } from 'view-engine/store/auth/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -27,22 +27,14 @@ export class AppComponent implements OnInit {
   title = 'view-engine';
   logged = false;
 
-  constructor(
-    private applicationStore: ApplicationStore,
-    private storageService: StorageService
-  ) {}
+  constructor(private store: Store) {}
 
   ngOnInit() {
-    const user: User = this.storageService.get('USER');
-    if (user && user.id) {
-      this.logged = true;
-      this.applicationStore.user = user;
-    }
+    this.logged = this.store.selectSnapshot(AuthState.isAuthenticated);
   }
 
   onExit() {
-    this.storageService.clear("AUTH");
-    this.storageService.clear("USER");
+    this.store.dispatch(new Logout());
     this.logged = false;
   }
 

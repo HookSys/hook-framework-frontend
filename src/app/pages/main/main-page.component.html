@@ -32,26 +32,7 @@
   </div>
 </div>
 
-<div *ngIf="featureOpened" class="h-100 d-flex flex-column justify-content-between align-items-start">
-  <div class="navbar">
-    <div (click)="onSpotlightClick()" class="spotlight">
-      <i class="material-icons">menu</i>
-    </div>
-    <div
-      *ngFor="let feature of openedFeatures"
-      class="feature-name"
-      (click)="selectFunction(feature)"
-      [ngClass]="{ 'selected': feature.selected }">
-      {{ feature.name }}
-      <i *ngIf="feature.selected" (click)="closeFunction(feature)" class="material-icons">highlight_off</i>
-    </div>
-  </div>
-  <div class="container-fluid h-100 main-app px-0">
-    <div *ngIf="selectedFeature" class="app-container">
-      <ve-feature [feature]="selectedFeature"></ve-feature>
-    </div>
-  </div>
-</div>
+<ve-view-engine (onSpotlightClick)="onSpotlightClick()"></ve-view-engine>
 
 <div class="spotlight-menu" [@spotlight]="spotlightOpened" (@spotlight.done)="onSpotlightEndAnimation()" (@spotlight.start)="onSpotlightStartAnimation()">
   <div class="container-fluid h-50" [@spotlightChildren]="spotlightChildrenOpened">

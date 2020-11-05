@@ -1,14 +1,13 @@
-import { IViewEngineDbTableParam } from './../../organisms/ve-dbtable/ve-dbtable.interface';
-import { IViewEngineAction } from './../../../interfaces/ve.interface';
-import { Component, Input, AfterViewInit, OnInit, OnChanges } from '@angular/core';
-import { IViewEngineDbTable, IViewEngineOpenRecordEvent } from 'view-engine/components/organisms/ve-dbtable/ve-dbtable.interface';
+import { PanelWithRelations } from 'models/panel-with-relations';
+import { SchematicObjectWithRelations } from 'models/schematic-object-with-relations';
+import { Component, Input, OnInit } from '@angular/core';
+import { PanelControllerService } from 'view-engine/api/services';
 
-interface IViewEnginePanels {
-  id: number;
-  size: number;
-  metadata: IViewEngineDbTable;
-  record: IViewEngineDbTableParam;
-}
+const SIZES = {
+  'FULL': 12,
+  'TWO': 6,
+  'THREE': 4
+};
 
 @Component({
   selector: 've-panel',
@@ -17,48 +16,17 @@ interface IViewEnginePanels {
 })
 export class ViewEnginePanelComponent implements OnInit {
   @Input()
-  entrypoint: IViewEngineDbTable;
+  schematic: SchematicObjectWithRelations;
+  sizes = {
+    'FULL': 12,
+    'TWO': 6,
+    'THREE': 4
+  };
+  component: PanelWithRelations;
+  constructor(private panelService: PanelControllerService) {}
 
-  public panels: IViewEnginePanels[] = [];
-
-  constructor() {
+  ngOnInit(){
+    this.panelService.findById({ id: this.schematic.handlerId }).subscribe(p => this.component = p)
   }
 
-  private isPanelAlreadyOpened(id: number): boolean | number {
-    const opened = this.panels.findIndex((p) => p.id === id);
-    return opened >=0 || false
-  }
-
-  public ngOnInit() {
-    this.panels = this.panels.concat([{
-      id: this.entrypoint.id,
-      size: this.entrypoint.size,
-      metadata: this.entrypoint,
-      record: {}
-    }])
-  }
-
-  public openPanel(event: IViewEngineOpenRecordEvent): void {
-    const { children, data } = event
-    const isOpened = this.isPanelAlreadyOpened(children.id);
-    if (isOpened) {
-      this.panels = this.panels.map((p) => {
-        if (p.id === children.id) {
-          return {
-            ...p,
-            record: data
-          }
-        }
-        return p
-      })
-    } else {
-      this.panels = this.panels.concat([{
-        id: children.id,
-        size: children.size,
-        metadata: children,
-        record: data
-      }])
-    }
-
-  }
 }

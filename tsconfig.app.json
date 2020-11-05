@@ -2,7 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": ["webpack-env"]
+    "types": ["webpack-env"],
+    "paths": {
+      "view-engine/*": ["src/view-engine/*"],
+      "models/*": ["src/view-engine/api/models/*"]
+    }
   },
   "files": [
     "src/main.ts",
