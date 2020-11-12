@@ -1,9 +1,10 @@
-@import "../../organisms/ve-dbtable/ve-dbtable.component.scss";
+@import "../../organisms/ve-dbpanel/ve-dbpanel.component.scss";
 
 .table-container {
   position: relative;
   overflow: auto;
   max-height: 70vh;
+  margin-top: 4px;
   .table {
     min-width: fit-content;
     border-collapse: collapse;
@@ -51,6 +52,10 @@
         align-items: center;
         padding: 7px 5px;
         cursor: pointer;
+        transition: background-color ease-in-out 0.1s;
+        &:hover:not(.selected) {
+          background-color: #f1f1f18e;
+        }
 
         .table-line-col {
           -webkit-touch-callout: none;
@@ -76,7 +81,7 @@
       }
 
       .selected {
-        background-color: #f1f1f1;
+        background-color: #e8e8e8;
       }
 
       .table-loading {

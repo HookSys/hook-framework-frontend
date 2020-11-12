@@ -10,6 +10,7 @@ export interface ViewAttribute {
   isReadOnly?: boolean;
   isRequired?: boolean;
   isVisible?: boolean;
+  isPrimaryKey?: boolean;
   label: string;
   line: number;
   mask?: string;

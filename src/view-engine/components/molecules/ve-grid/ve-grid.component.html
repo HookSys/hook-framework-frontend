@@ -2,26 +2,27 @@
   <table class="table">
     <thead class="table-header">
       <th
-        *ngFor="let col of columns"
+        *ngFor="let column of columns"
         class="header-item"
-        [ngStyle]="col.sizePercent ? { 'width.%': col.sizePercent } : { 'width.%': defaultWidth }"
+        [ngStyle]="column.sizePercent ? { 'width.%': column.sizePercent } : { 'width.%': defaultWidth }"
         (click)="makeOrder(col)">
-        <strong>{{col.label}}</strong>
-        <i *ngIf="col.sort" class="material-icons">{{col.sort == 'asc' ? 'arrow_downward' : 'arrow_upward'}}</i>
+        <strong>{{column.label}}</strong>
+        <i *ngIf="column.sort" class="material-icons">{{column.sort == 'asc' ? 'arrow_downward' : 'arrow_upward'}}</i>
       </th>
     </thead>
     <tbody class="table-body">
       <tr
-        *ngFor="let reg of data"
-        (click)="onLineClick(reg)"
+        *ngFor="let record of records"
+        (click)="onRecordClick(record)"
         (dblclick)="onDblClick(selected)"
         class="table-line"
-        [ngClass]="{ 'selected': selected && selected[metadata.pk] == reg[metadata.pk] }">
+        [ngClass]="{ 'selected': selectedRecord && selectedRecord[pkField] === record[pkField] }"
+      >
         <td
-          *ngFor="let col of columns"
+          *ngFor="let column of columns"
           class="table-line-col"
-          [ngStyle]="col.sizePercent ? { 'width.%': col.sizePercent } : { 'width.%': defaultWidth }">
-          {{reg[col.name]}}
+          [ngStyle]="column.sizePercent ? { 'width.%': column.sizePercent } : { 'width.%': defaultWidth }">
+          {{record[column.name]}}
         </td>
       </tr>
     </tbody>

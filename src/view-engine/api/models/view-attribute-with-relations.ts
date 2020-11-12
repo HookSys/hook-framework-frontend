@@ -14,6 +14,7 @@ export interface ViewAttributeWithRelations {
   isReadOnly?: boolean;
   isRequired?: boolean;
   isVisible?: boolean;
+  isPrimaryKey?: boolean;
   label: string;
   line: number;
   mask?: string;

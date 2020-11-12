@@ -2,6 +2,7 @@ import { ViewEngineSchematicsHostDirective } from './ve-schematics.directive';
 import { SchematicObjectWithRelations } from 'models/schematic-object-with-relations';
 import { Component, Input, OnInit, AfterViewInit, ViewChild, ComponentFactoryResolver, ComponentFactory, ComponentRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { ViewEngineSchematicsPanelComponent } from './factories/ve-schematic-ve-panel.factory';
+import { ViewEngineSchematicsDbPanelComponent } from './factories/ve-schematic-ve-dbpanel.factory';
 
 @Component({
   selector: 've-schematics',
@@ -24,9 +25,29 @@ export class ViewEngineSchematicsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     console.log(this.schematic)
-      if (['PANEL', 'FUNCTION'].includes(this.schematic.type))
+
+    switch(this.schematic.type) {
+      case 'PANEL':
+      case 'FUNCTION':
         this.buildPanel();
-      this.cdRef.detectChanges();
+        break;
+      case 'DBPANEL':
+        this.buildDbPanel();
+        break;
+    }
+
+    this.cdRef.detectChanges();
+  }
+
+  buildDbPanel() {
+    const viewContainerRef = this.schematicHost.viewContainerRef;
+    viewContainerRef.clear();
+    const factory: ComponentFactory<ViewEngineSchematicsDbPanelComponent>
+      = this.resolver.resolveComponentFactory(ViewEngineSchematicsDbPanelComponent);
+
+    const componentRef: ComponentRef<ViewEngineSchematicsDbPanelComponent>
+      = viewContainerRef.createComponent(factory);
+      componentRef.instance.schematicId = this.schematic.id;
   }
 
   buildPanel() {

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewEngineDbTableComponent } from './ve-dbtable.component';
+import { ViewEngineDbPanelComponent } from './ve-dbpanel.component';
 
-describe('ViewEngineDbTableComponent', () => {
-  let component: ViewEngineDbTableComponent;
-  let fixture: ComponentFixture<ViewEngineDbTableComponent>;
+describe('ViewEngineDbPanelComponent', () => {
+  let component: ViewEngineDbPanelComponent;
+  let fixture: ComponentFixture<ViewEngineDbPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewEngineDbTableComponent ]
+      declarations: [ ViewEngineDbPanelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewEngineDbTableComponent);
+    fixture = TestBed.createComponent(ViewEngineDbPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

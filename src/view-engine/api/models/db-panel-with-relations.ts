@@ -1,4 +1,5 @@
 /* tslint:disable */
+import { TableWithRelations } from './table-with-relations';
 import { ViewWithRelations } from './view-with-relations';
 
 /**
@@ -10,11 +11,11 @@ export interface DbPanelWithRelations {
   id?: number;
   name: string;
   tableId?: number;
-  title: string;
+  title?: string;
   updatedAt?: string;
   updatedBy?: string;
   view?: ViewWithRelations;
   viewId?: number;
-
+  table?: TableWithRelations;
   [key: string]: any;
 }

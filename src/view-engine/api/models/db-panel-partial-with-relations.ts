@@ -8,7 +8,7 @@ export interface DbPanelPartialWithRelations {
   createdAt?: string;
   createdBy?: string;
   id?: number;
-  name?: string;
+  name: string;
   tableId?: number;
   title?: string;
   updatedAt?: string;

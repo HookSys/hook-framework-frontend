@@ -1,9 +1,6 @@
-import { ViewEnginePanelComponent } from '../../../molecules/ve-panel/ve-panel.component';
 import { AfterViewInit, Component, ComponentFactoryResolver, Input, OnInit, ViewChild, ViewContainerRef, ɵConsole } from '@angular/core';
-import { SchematicObject } from 'models/schematic-object';
 import { SchematicObjectWithRelations } from 'models/schematic-object-with-relations';
 import { SchematicObjectControllerService } from '../../../../api/services/schematic-object-controller.service';
-import { ViewEnginePanelDirective } from '../../../molecules/ve-panel/ve-panel.directive';
 import { FilterBuilder } from 'view-engine/api/query';
 
 const filter = new FilterBuilder<SchematicObjectWithRelations>({
@@ -13,10 +10,10 @@ const filter = new FilterBuilder<SchematicObjectWithRelations>({
 }).build();
 
 @Component({
-  selector: 've-schematics-ve-panel',
-  template: `<ve-panel *ngIf="schematic" [schematic]="schematic"></ve-panel>`
+  selector: 've-schematics-ve-dbpanel',
+  template: `<ve-dbpanel *ngIf="schematic" [schematic]="schematic"></ve-dbpanel>`
 })
-export class ViewEngineSchematicsPanelComponent implements OnInit, AfterViewInit {
+export class ViewEngineSchematicsDbPanelComponent implements OnInit, AfterViewInit {
   schematicId: number;
   schematic: SchematicObjectWithRelations;
 

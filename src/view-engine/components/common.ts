@@ -1,4 +1,6 @@
-import { EViewEngineFieldType, IViewEngineField } from './molecules/ve-form/ve-form.interface';
+import { ViewAttribute } from './../api/models/view-attribute';
+import { EViewEngineFieldType } from './molecules/ve-form/ve-form.interface';
+
 export function bindPathParams(
   pathParams: object,
   path: string
@@ -11,7 +13,7 @@ export function bindPathParams(
   }, path)
 }
 
-export function getDefaultValueByType(value: any, field: IViewEngineField) {
+export function getDefaultValueByType(value: any, field: ViewAttribute) {
   if (field.type === EViewEngineFieldType.CHECKBOX) {
     return Boolean(value)
   }

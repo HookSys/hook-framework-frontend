@@ -1,0 +1,29 @@
+<div class="db-table" *ngIf="!isLoading && isVisible">
+  <h3 class="title unselectable">{{getTitle()}}</h3>
+  <ve-grid
+    *ngIf="state == 'GRID'"
+    [records]="records"
+    [pkField]="component.table.pkField"
+    [attributes]="component.view.attributes"
+    [selectedRecord]="selectedRecord"
+    (onSelectRecord)="onSelectRecord($event)"
+  >
+  </ve-grid>
+  <ve-form
+    *ngIf="['EDIT','NEW'].includes(state)"
+    [state]="state"
+    [pkField]="component.table.pkField"
+    [record]="selectedRecord"
+    [attributes]="component.view.attributes"
+    >
+  </ve-form>
+  <div class="buttons" *ngIf="state == 'GRID'">
+    <button type="button" (click)="onEditRecord()" class="btn btn-secondary btn-sm" >Editar</button>
+    <button type="button" (click)="onAddRecord()" class="btn btn-dark btn-sm">Adicionar</button>
+  </div>
+  <div class="buttons" *ngIf="['EDIT','NEW'].includes(state)">
+    <button type="button" (click)="onCancel()" class="btn btn-outline-dark btn-sm">Cancelar</button>
+    <button type="button" (click)="onSave()" class="btn btn-dark btn-sm">Salvar</button>
+  </div>
+</div>
+<app-ve-loader *ngIf="isLoading"></app-ve-loader>

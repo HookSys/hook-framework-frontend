@@ -1,3 +1,3 @@
-import { IViewEngineField } from '../../molecules/ve-form/ve-form.interface';
+import { ViewAttribute } from 'view-engine/api/models';
 
-export type IViewEngineColumn = IViewEngineField & { sort?: string};
+export type IViewEngineColumn = ViewAttribute & { sort?: string};
