@@ -14,13 +14,13 @@ export function bindPathParams(
 }
 
 export function getDefaultValueByType(value: any, field: ViewAttribute) {
-  if (field.type === EViewEngineFieldType.CHECKBOX) {
-    return Boolean(value)
+  if (field.component === EViewEngineFieldType.CHECKBOX) {
+    return typeof value === 'string' ? value === 'true' : !!value
   }
-  if (field.type === EViewEngineFieldType.NUMBER) {
+  if (field.component === EViewEngineFieldType.NUMBER) {
     return !isNaN(value) ? parseInt(value, 10) : null;
   }
-  if (field.type === EViewEngineFieldType.DATETIME) {
+  if (field.component === EViewEngineFieldType.DATETIME) {
 
   }
   return value ? String(value) : '';
@@ -33,7 +33,7 @@ export class ViewEngineFieldBase<T> {
   required: boolean;
   order: number;
   controlType: string;
-  type: string;
+  component: string;
   options: {key: string, value: string}[];
 
   constructor(options: {
@@ -43,7 +43,7 @@ export class ViewEngineFieldBase<T> {
       required?: boolean;
       order?: number;
       controlType?: string;
-      type?: string;
+      component?: string;
       options?: {key: string, value: string}[];
     } = {}) {
     this.value = options.value;
@@ -52,7 +52,7 @@ export class ViewEngineFieldBase<T> {
     this.required = !!options.required;
     this.order = options.order === undefined ? 1 : options.order;
     this.controlType = options.controlType || '';
-    this.type = options.type || '';
+    this.component = options.component || '';
     this.options = options.options || [];
   }
 }

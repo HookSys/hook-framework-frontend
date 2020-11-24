@@ -31,6 +31,7 @@ import {NgxsStoreModule} from './store';
 import { ApiModule } from './api/api.module';
 import { ViewEngineDbPanelComponent } from './components/organisms/ve-dbpanel/ve-dbpanel.component';
 import { ViewEngineGridComponent } from './components/molecules/ve-grid/ve-grid.component';
+import { TreeModule } from '@circlon/angular-tree-component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ViewEngineGridComponent } from './components/molecules/ve-grid/ve-grid.
     NgbModule,
     ListBoxModule,
     NgxsStoreModule,
-    ApiModule
+    ApiModule,
+    TreeModule
   ],
   providers: [
   ],

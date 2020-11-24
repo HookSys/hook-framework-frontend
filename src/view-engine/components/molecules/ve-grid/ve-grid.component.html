@@ -14,7 +14,7 @@
       <tr
         *ngFor="let record of records"
         (click)="onRecordClick(record)"
-        (dblclick)="onDblClick(selected)"
+        (dblclick)="onRecordDblClick(record)"
         class="table-line"
         [ngClass]="{ 'selected': selectedRecord && selectedRecord[pkField] === record[pkField] }"
       >

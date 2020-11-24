@@ -1,32 +1,30 @@
-import { PanelWithRelations } from 'models/panel-with-relations';
-import { SchematicObjectWithRelations } from 'models/schematic-object-with-relations';
-import { Component, Input, OnInit } from '@angular/core';
-import { PanelControllerService } from 'view-engine/api/services';
-
-const SIZES = {
-  'FULL': 12,
-  'TWO': 6,
-  'THREE': 4
-};
+import { PanelWithRelations } from "models/panel-with-relations";
+import { SchematicObjectWithRelations } from "models/schematic-object-with-relations";
+import { Component, Input, OnInit } from "@angular/core";
+import { PanelControllerService } from "view-engine/api/services";
 
 @Component({
-  selector: 've-panel',
-  templateUrl: './ve-panel.component.html',
-  styleUrls: ['./ve-panel.component.scss'],
+  selector: "ve-panel",
+  templateUrl: "./ve-panel.component.html",
+  styleUrls: ["./ve-panel.component.scss"],
 })
 export class ViewEnginePanelComponent implements OnInit {
   @Input()
   schematic: SchematicObjectWithRelations;
   sizes = {
-    'FULL': 12,
-    'TWO': 6,
-    'THREE': 4
+    FULL: 12,
+    TWO: 6,
+    THREE: 4,
   };
   component: PanelWithRelations;
-  constructor(private panelService: PanelControllerService) {}
+  constructor(
+    private panelService: PanelControllerService,
+  ) {}
 
-  ngOnInit(){
-    this.panelService.findById({ id: this.schematic.handlerId }).subscribe(p => this.component = p)
+  ngOnInit() {
+    this.panelService
+      .findById({ id: this.schematic.handlerId })
+      .subscribe((p) => (this.component = p));
   }
 
 }

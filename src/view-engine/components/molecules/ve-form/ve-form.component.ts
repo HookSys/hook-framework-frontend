@@ -1,3 +1,4 @@
+import { EViewEngineDbPanelStates } from './../../organisms/ve-dbpanel/ve-dbpanel.service';
 import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { getDefaultValueByType } from 'view-engine/components/common';
@@ -16,6 +17,8 @@ export class ViewEngineFormComponent implements OnChanges {
   record: any = {};
   @Input('pkField')
   pkField: string;
+  @Input('state')
+  state: EViewEngineDbPanelStates;
 
   handler: FormGroup;
   rows: Array<
@@ -32,9 +35,13 @@ export class ViewEngineFormComponent implements OnChanges {
       this.handler = new FormGroup({});
       for (const field of this.attributes) {
         if (field.isVisible !== false && field.name !== this.pkField) {
+          const value = this.state === EViewEngineDbPanelStates.NEW
+            ? null
+            : this.record[field.name];
+
           this.addToRows(field);
           const control = new FormControl(
-            getDefaultValueByType(this.record[field.name], field),
+            getDefaultValueByType(value, field),
             this.getValidatorsFromField(field)
           );
           if (field.isReadOnly) {
@@ -64,7 +71,7 @@ export class ViewEngineFormComponent implements OnChanges {
 
   private getValidatorsFromField(field: ViewAttribute): any[] {
     const validators = [];
-    if (field.isRequired && field.type !== EViewEngineFieldType.CHECKBOX) {
+    if (field.isRequired && field.component !== EViewEngineFieldType.CHECKBOX) {
       validators.push(Validators.required);
     }
     if (field.minLength) {

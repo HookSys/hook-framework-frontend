@@ -6,6 +6,7 @@
     [pkField]="component.table.pkField"
     [attributes]="component.view.attributes"
     [selectedRecord]="selectedRecord"
+    (onDblClick)="onDblClick($event)"
     (onSelectRecord)="onSelectRecord($event)"
   >
   </ve-grid>

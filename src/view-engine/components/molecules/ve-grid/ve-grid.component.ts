@@ -19,6 +19,8 @@ export class ViewEngineGridComponent {
 
   @Output()
   onSelectRecord: EventEmitter<object> = new EventEmitter<object>();
+  @Output()
+  onDblClick: EventEmitter<object> = new EventEmitter<object>();
 
   defaultWidth: number;
   columns: IViewEngineColumn[] = [];
@@ -50,6 +52,12 @@ export class ViewEngineGridComponent {
   onRecordClick(record?: object) {
     if (record) {
       this.onSelectRecord.emit(record);
+    }
+  }
+
+  onRecordDblClick(record?: object) {
+    if (record) {
+      this.onDblClick.emit(record);
     }
   }
 

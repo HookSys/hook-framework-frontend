@@ -1,9 +1,12 @@
+import { getDefaultValueByType } from 'view-engine/components/common';
 import { ViewEngineFormComponent } from './../../molecules/ve-form/ve-form.component';
 import { DbPanelControllerService } from '../../../api/services/db-panel-controller.service';
 import { DbPanelWithRelations } from '../../../api/models/db-panel-with-relations';
-import { Component,  Input, OnInit, ViewChild } from "@angular/core";
+import { Component,  Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { SchematicObjectWithRelations } from 'view-engine/api/models';
-import { tap, finalize } from 'rxjs/operators';
+import { tap, finalize, filter } from 'rxjs/operators';
+import { EViewEngineFieldType } from 'view-engine/components/molecules/ve-form/ve-form.interface';
+import { Subject } from 'rxjs';
 
 enum EViewEngineDbPanelStates {
   GRID = 'GRID',
@@ -16,10 +19,11 @@ enum EViewEngineDbPanelStates {
   templateUrl: "./ve-dbpanel.component.html",
   styleUrls: ["./ve-dbpanel.component.scss"],
 })
-export class ViewEngineDbPanelComponent implements OnInit {
+export class ViewEngineDbPanelComponent implements OnInit, OnDestroy {
   @Input()
   schematic: SchematicObjectWithRelations;
   component: DbPanelWithRelations;
+
 
   isLoading: boolean = false;
   isVisible: boolean = true;
@@ -31,7 +35,8 @@ export class ViewEngineDbPanelComponent implements OnInit {
   @ViewChild(ViewEngineFormComponent, { static: false })
   form: ViewEngineFormComponent;
 
-  constructor(private dbPanelService: DbPanelControllerService) {}
+  constructor(private dbPanelService: DbPanelControllerService,
+    ) {}
 
   ngOnInit() {
     const { dbPanelService } = this;
@@ -52,8 +57,29 @@ export class ViewEngineDbPanelComponent implements OnInit {
     .subscribe((records) => this.records = records)
   }
 
+  serialize(values: object) {
+    const { view, table } = this.component;
+    return view.attributes.reduce((request, field) => {
+      if (field.name === table.pkField) {
+        return request
+      }
+      if (values[field.name] || field.component === EViewEngineFieldType.CHECKBOX) {
+        return {
+          ...request,
+          [field.name]: getDefaultValueByType(values[field.name], field),
+        }
+      }
+      return request
+    }, {})
+  }
+
   onSelectRecord(record: object) {
-    this.selectedRecord = record;
+    if (!this.selectedRecord || this.selectedRecord[this.component.table.pkField] !== record[this.component.table.pkField]) {
+      this.selectedRecord = record;
+    }
+  }
+
+  onDblClick(record: object) {
   }
 
   getTitle(): string {
@@ -76,22 +102,24 @@ export class ViewEngineDbPanelComponent implements OnInit {
   onSave() {
     this.isLoading = true;
     const { handler } = this.form;
+    const values = this.serialize(handler.value);
     handler.updateValueAndValidity();
     setTimeout(() => {
       if (handler.valid) {
         if (this.state === EViewEngineDbPanelStates.NEW) {
           this.dbPanelService.createRecord({
             id: this.component.id,
-            record: handler.value
+            record: values
           }).subscribe(() => this.isLoading = false)
         } else {
           this.dbPanelService.saveRecord({
             id: this.component.id,
             recordId: this.selectedRecord[this.component.table.pkField],
-            record: handler.value
+            record: values
           }).subscribe(() => this.isLoading = false)
         }
         this.state = EViewEngineDbPanelStates.GRID;
+        this.selectedRecord = { ...this.selectedRecord, ...values }
         setTimeout(() => this.activate())
       }
     })

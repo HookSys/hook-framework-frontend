@@ -79,7 +79,7 @@ export class DbPanelControllerService extends BaseService {
     id: number,
     record: T
   }): Observable<StrictHttpResponse<T>> {
-    const rb = new RequestBuilder(this.rootUrl, DbPanelControllerService.DbPanelControllerDatasourcePath, 'patch');
+    const rb = new RequestBuilder(this.rootUrl, DbPanelControllerService.DbPanelControllerDatasourcePath, 'post');
     if (params) {
       rb.path('id', params.id, {});
       rb.body(params.record, 'application/json')

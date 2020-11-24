@@ -24,8 +24,6 @@ export class ViewEngineSchematicsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.schematic)
-
     switch(this.schematic.type) {
       case 'PANEL':
       case 'FUNCTION':
