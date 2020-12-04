@@ -1,10 +1,17 @@
-import { Component, OnInit, Input, Self, Optional } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Component, OnInit, Input, Self, Optional, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 've-checkbox',
   templateUrl: './ve-checkbox.component.html',
-  styleUrls: ['./ve-checkbox.component.scss']
+  styleUrls: ['./ve-checkbox.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ViewEngineCheckbox),
+      multi: true
+    }
+  ]
 })
 export class ViewEngineCheckbox implements OnInit, ControlValueAccessor {
   @Input() label?: string = '';
@@ -41,7 +48,7 @@ export class ViewEngineCheckbox implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  private onChange() {}
-  private onTouched() {}
-  private onFocus() {}
+  public onChange(e: any) {}
+  public onTouched(e: any) {}
+  public onFocus(e: any) {}
 }

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ViewEngineFormComponent } from './ve-form.component';
 
@@ -6,7 +6,7 @@ describe('ViewEngineFormComponent', () => {
   let component: ViewEngineFormComponent;
   let fixture: ComponentFixture<ViewEngineFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ViewEngineFormComponent ]
     })

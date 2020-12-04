@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ViewEngineGridComponent } from './ve-grid.component';
 
@@ -6,7 +6,7 @@ describe('ViewEngineGridComponent', () => {
   let component: ViewEngineGridComponent;
   let fixture: ComponentFixture<ViewEngineGridComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ViewEngineGridComponent ]
     })

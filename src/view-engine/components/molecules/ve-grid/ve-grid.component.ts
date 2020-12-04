@@ -55,6 +55,9 @@ export class ViewEngineGridComponent {
     }
   }
 
+  makeOrder(e: IViewEngineColumn) {}
+
+
   onRecordDblClick(record?: object) {
     if (record) {
       this.onDblClick.emit(record);
