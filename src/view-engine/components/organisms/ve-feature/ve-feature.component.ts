@@ -12,6 +12,7 @@ export class ViewEngineFeatureComponent implements OnInit, OnDestroy {
   feature: Feature;
 
   public ngOnInit() {
+    debugger
   }
 
   public ngOnDestroy() {

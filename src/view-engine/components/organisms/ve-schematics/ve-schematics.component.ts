@@ -1,8 +1,10 @@
+import { Store } from '@ngxs/store';
 import { ViewEngineSchematicsHostDirective } from './ve-schematics.directive';
 import { SchematicObjectWithRelations } from 'models/schematic-object-with-relations';
 import { Component, Input, OnInit, AfterViewInit, ViewChild, ComponentFactoryResolver, ComponentFactory, ComponentRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { ViewEngineSchematicsPanelComponent } from './factories/ve-schematic-ve-panel.factory';
 import { ViewEngineSchematicsDbPanelComponent } from './factories/ve-schematic-ve-dbpanel.factory';
+import { AppendSchematic } from 'view-engine/store/engine/schematic/schematic.actions';
 
 @Component({
   selector: 've-schematics',
@@ -16,9 +18,14 @@ export class ViewEngineSchematicsComponent implements OnInit, AfterViewInit {
   @Input()
   schematic: SchematicObjectWithRelations;
 
+  @Input()
+  parent: number;
+
   constructor(
     private resolver: ComponentFactoryResolver,
-    private cdRef: ChangeDetectorRef) {}
+    private cdRef: ChangeDetectorRef,
+    private store: Store
+  ) {}
 
   ngOnInit() {
   }
@@ -45,7 +52,8 @@ export class ViewEngineSchematicsComponent implements OnInit, AfterViewInit {
 
     const componentRef: ComponentRef<ViewEngineSchematicsDbPanelComponent>
       = viewContainerRef.createComponent(factory);
-      componentRef.instance.schematicId = this.schematic.id;
+      componentRef.instance.schematic = this.schematic;
+      componentRef.instance.parent = this.parent;
   }
 
   buildPanel() {
@@ -56,7 +64,8 @@ export class ViewEngineSchematicsComponent implements OnInit, AfterViewInit {
 
     const componentRef: ComponentRef<ViewEngineSchematicsPanelComponent>
       = viewContainerRef.createComponent(factory);
-      componentRef.instance.schematicId = this.schematic.childs[0].id;
+      componentRef.instance.schematic = this.schematic;
+      componentRef.instance.parent = this.parent;
   }
 
 }

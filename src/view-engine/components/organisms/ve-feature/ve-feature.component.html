@@ -1,5 +1,5 @@
 <div *ngIf="feature.selected" class="row h-100 no-gutters">
   <div class="col-sm-12">
-    <ve-schematics [schematic]="feature.schematicObject"></ve-schematics>
+    <ve-schematics [schematic]="feature.schematicObject.childs[0]" [parent]="feature.schematicObject.id"></ve-schematics>
   </div>
 </div>

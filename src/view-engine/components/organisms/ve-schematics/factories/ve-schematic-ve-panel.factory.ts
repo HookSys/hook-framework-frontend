@@ -1,3 +1,5 @@
+import { CreateSchematic } from 'view-engine/store/engine/schematic/schematic.actions';
+import { Store } from '@ngxs/store';
 import { ViewEnginePanelComponent } from './../../../molecules/ve-panel/ve-panel.component';
 import { AfterViewInit, Component, ComponentFactoryResolver, Input, OnInit, ViewChild, ViewContainerRef, ɵConsole } from '@angular/core';
 import { SchematicObject } from 'models/schematic-object';
@@ -14,19 +16,23 @@ const filter = new FilterBuilder<SchematicObjectWithRelations>({
 
 @Component({
   selector: 've-schematics-ve-panel',
-  template: `<ve-panel *ngIf="schematic" [schematic]="schematic"></ve-panel>`
+  template: `<ve-panel *ngIf="schematicObj" [parent]="parent" [schematic]="schematicObj"></ve-panel>`
 })
 export class ViewEngineSchematicsPanelComponent implements OnInit, AfterViewInit {
-  schematicId: number;
   schematic: SchematicObjectWithRelations;
+  parent: number;
+
+  schematicObj = null;
 
   constructor(
+    private store: Store,
     private schematicObjSvc: SchematicObjectControllerService,
   ) {}
 
   ngOnInit() {
-    this.schematicObjSvc.findById({ id: this.schematicId, filter }).subscribe(s => {
-      this.schematic = s;
+    this.schematicObjSvc.findById({ id: this.schematic.id, filter }).subscribe(s => {
+      this.schematicObj = s;
+      this.store.dispatch(new CreateSchematic(s))
     });
   }
 

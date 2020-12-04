@@ -16,12 +16,16 @@ export class ViewEnginePanelComponent implements OnInit {
     TWO: 6,
     THREE: 4,
   };
+  @Input()
+  parent: number;
+
   component: PanelWithRelations;
   constructor(
     private panelService: PanelControllerService,
   ) {}
 
   ngOnInit() {
+    debugger
     this.panelService
       .findById({ id: this.schematic.handlerId })
       .subscribe((p) => (this.component = p));

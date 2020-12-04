@@ -1,7 +1,9 @@
+import { CreateSchematic } from './../schematic/schematic.actions';
+import { SchematicsState, SchematicsStateModel } from '../schematic/schematic.state';
 import { FilterBuilder } from './../../../api/query';
 import { FeatureControllerService } from "./../../../api/services/feature-controller.service";
 import { Feature } from "models/feature";
-import { tap } from "rxjs/operators";
+import { tap, finalize } from "rxjs/operators";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { OpenFeature, CloseFeature, SelectFeature } from "./features.actions";
 import { Injectable } from "@angular/core";
@@ -26,8 +28,8 @@ const filter = new FilterBuilder<Feature>({
 @State<FeaturesStateModel>({
   name: "features",
   defaults: {
-    features: [],
-  },
+    features: []
+  }
 })
 @Injectable()
 export class FeaturesState {
@@ -66,7 +68,7 @@ export class FeaturesState {
           ctx.patchState({
             features: [].concat(features, this.getAsSelectedFeature(feature)),
           });
-        })
+        }),
       );
     } else {
       if (exists(payload.id)) return;
@@ -125,7 +127,11 @@ export class FeaturesState {
   }
 
   getAsSelectedFeature(feature: Feature): FeatureWithStatus {
-    return { ...feature, selected: true };
+    const { schematicObject } = feature;
+    return {
+      ...feature,
+      selected: true,
+    };
   }
 
   unselectAllFeatures(state: FeaturesStateModel): FeatureWithStatus[] {
