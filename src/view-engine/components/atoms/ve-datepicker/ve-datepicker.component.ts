@@ -48,7 +48,7 @@ export class ViewEngineDatePicker implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  private onChange() {}
-  private onTouched() {}
-  private onFocus() {}
+  public onChange(e: any) {}
+  public onTouched(e: any) {}
+  public onFocus(e: any) {}
 }

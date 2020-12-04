@@ -4,9 +4,9 @@ interface Event {
 }
 
 export class EventsManager {
-    private onChangeListeners: Event[] = [];
-    private onBlurListeners: Event[] = [];
-    private onFocusListeners: Event[] = [];
+    public onChangeListeners: Event[] = [];
+    public onBlurListeners: Event[] = [];
+    public onFocusListeners: Event[] = [];
 
     public addChangeListener(field: string, callback: Function) {
         this.onChangeListeners.push({ field, callback });

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ViewEngineDbPanelComponent } from './ve-dbpanel.component';
 
@@ -6,7 +6,7 @@ describe('ViewEngineDbPanelComponent', () => {
   let component: ViewEngineDbPanelComponent;
   let fixture: ComponentFixture<ViewEngineDbPanelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ViewEngineDbPanelComponent ]
     })

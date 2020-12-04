@@ -32,7 +32,7 @@ export class ViewEngineDbPanelComponent implements OnInit, OnDestroy {
   records: object[];
   selectedRecord: object;
 
-  @ViewChild(ViewEngineFormComponent, { static: false })
+  @ViewChild(ViewEngineFormComponent)
   form: ViewEngineFormComponent;
 
   constructor(private dbPanelService: DbPanelControllerService,

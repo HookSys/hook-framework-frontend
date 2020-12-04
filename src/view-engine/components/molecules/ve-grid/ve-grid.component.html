@@ -5,7 +5,7 @@
         *ngFor="let column of columns"
         class="header-item"
         [ngStyle]="column.sizePercent ? { 'width.%': column.sizePercent } : { 'width.%': defaultWidth }"
-        (click)="makeOrder(col)">
+        (click)="makeOrder(column)">
         <strong>{{column.label}}</strong>
         <i *ngIf="column.sort" class="material-icons">{{column.sort == 'asc' ? 'arrow_downward' : 'arrow_upward'}}</i>
       </th>
