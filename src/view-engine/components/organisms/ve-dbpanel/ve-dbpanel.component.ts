@@ -1,3 +1,4 @@
+import { AppendSchematic } from 'view-engine/store/engine/schematic/schematic.actions';
 import { getDefaultValueByType } from 'view-engine/components/common';
 import { ViewEngineFormComponent } from './../../molecules/ve-form/ve-form.component';
 import { DbPanelControllerService } from '../../../api/services/db-panel-controller.service';
@@ -6,7 +7,7 @@ import { Component,  Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { SchematicObjectWithRelations } from 'view-engine/api/models';
 import { tap, finalize, filter } from 'rxjs/operators';
 import { EViewEngineFieldType } from 'view-engine/components/molecules/ve-form/ve-form.interface';
-import { Subject } from 'rxjs';
+import { Store } from '@ngxs/store';
 
 enum EViewEngineDbPanelStates {
   GRID = 'GRID',
@@ -22,6 +23,9 @@ enum EViewEngineDbPanelStates {
 export class ViewEngineDbPanelComponent implements OnInit, OnDestroy {
   @Input()
   schematic: SchematicObjectWithRelations;
+  @Input()
+  parent: number;
+
   component: DbPanelWithRelations;
 
 
@@ -36,6 +40,7 @@ export class ViewEngineDbPanelComponent implements OnInit, OnDestroy {
   form: ViewEngineFormComponent;
 
   constructor(private dbPanelService: DbPanelControllerService,
+    private store: Store,
     ) {}
 
   ngOnInit() {
@@ -80,6 +85,11 @@ export class ViewEngineDbPanelComponent implements OnInit, OnDestroy {
   }
 
   onDblClick(record: object) {
+    const { childs } = this.schematic;
+
+    if (childs && childs.length > 0 && childs[0].id) {
+      this.store.dispatch(new AppendSchematic(this.parent, 'DBPANEL', childs[0]))
+    }
   }
 
   getTitle(): string {

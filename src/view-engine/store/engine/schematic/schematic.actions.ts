@@ -1,4 +1,3 @@
-import { SchematicObject } from 'models/schematic-object';
 import { SchematicObjectWithRelations } from 'view-engine/api/models';
 
 export class  CreateSchematic {
@@ -6,7 +5,12 @@ export class  CreateSchematic {
   constructor(public payload: SchematicObjectWithRelations) {}
 }
 
+export class  DestroySchematic {
+  public static readonly type = '[Schematics] Erasing schematic';
+  constructor(public payload: SchematicObjectWithRelations) {}
+}
+
 export class  AppendSchematic {
   public static readonly type = '[Schematics] Appending object';
-  constructor(public parent: number, public type: string, public payload: SchematicObjectWithRelations) {}
+  constructor(public parent: number, public type: 'PANEL' | 'DBPANEL' | 'FUNCTION', public payload: SchematicObjectWithRelations) {}
 }

@@ -1,15 +1,14 @@
-import { CreateSchematic } from './../schematic/schematic.actions';
-import { SchematicsState, SchematicsStateModel } from '../schematic/schematic.state';
 import { FilterBuilder } from './../../../api/query';
 import { FeatureControllerService } from "./../../../api/services/feature-controller.service";
 import { Feature } from "models/feature";
-import { tap, finalize } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { OpenFeature, CloseFeature, SelectFeature } from "./features.actions";
 import { Injectable } from "@angular/core";
 
 export type FeatureWithStatus = Feature & { selected: boolean };
 export interface FeaturesStateModel {
+  selected?: FeatureWithStatus;
   features: Array<FeatureWithStatus>;
 }
 
@@ -28,8 +27,9 @@ const filter = new FilterBuilder<Feature>({
 @State<FeaturesStateModel>({
   name: "features",
   defaults: {
+    selected: null,
     features: []
-  }
+  },
 })
 @Injectable()
 export class FeaturesState {
@@ -65,15 +65,19 @@ export class FeaturesState {
       if (exists(payload)) return;
       return this.featureService.findById({ id: payload, filter }).pipe(
         tap((feature) => {
+          const featureAsSelected = this.getAsSelectedFeature(feature);
           ctx.patchState({
-            features: [].concat(features, this.getAsSelectedFeature(feature)),
+            selected: featureAsSelected,
+            features: [].concat(features, featureAsSelected),
           });
         }),
       );
     } else {
       if (exists(payload.id)) return;
+      const featureAsSelected = this.getAsSelectedFeature(payload);
       return ctx.patchState({
-        features: [].concat(features, this.getAsSelectedFeature(payload)),
+        selected: featureAsSelected,
+        features: [].concat(features, featureAsSelected)
       });
     }
   }
@@ -90,12 +94,14 @@ export class FeaturesState {
       );
     if (typeof payload === "number") {
       ctx.patchState({
+        selected: null,
         features: features.filter(
           (f, i, ar) => f.id !== payload || void select(ar[i - 1])
         ),
       });
     } else {
       ctx.patchState({
+        selected: null,
         features: features.filter(
           (f, i, ar) => f.id !== payload.id || void select(ar[i - 1])
         ),
@@ -112,6 +118,7 @@ export class FeaturesState {
     if (typeof payload === "number") {
       if (selected.id === payload) return;
       ctx.patchState({
+        selected: this.getFeatureToSelect(ctx.getState(), payload),
         features: features.map((feat) =>
           feat.id === payload ? this.getAsSelectedFeature(feat) : feat
         ),
@@ -119,10 +126,19 @@ export class FeaturesState {
     } else {
       if (selected.id === payload.id) return;
       ctx.patchState({
+        selected: this.getFeatureToSelect(ctx.getState(), payload.id),
         features: features.map((feat) =>
           feat.id === payload.id ? this.getAsSelectedFeature(feat) : feat
         ),
       });
+    }
+  }
+
+  getFeatureToSelect(state: FeaturesStateModel, featureId: number): FeatureWithStatus {
+    if (state && state.features) {
+      return state.features.find((feat) => (
+        feat.id === featureId ? this.getAsSelectedFeature(feat) : feat
+      ));
     }
   }
 

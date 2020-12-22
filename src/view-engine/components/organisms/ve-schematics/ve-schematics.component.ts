@@ -4,7 +4,6 @@ import { SchematicObjectWithRelations } from 'models/schematic-object-with-relat
 import { Component, Input, OnInit, AfterViewInit, ViewChild, ComponentFactoryResolver, ComponentFactory, ComponentRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { ViewEngineSchematicsPanelComponent } from './factories/ve-schematic-ve-panel.factory';
 import { ViewEngineSchematicsDbPanelComponent } from './factories/ve-schematic-ve-dbpanel.factory';
-import { AppendSchematic } from 'view-engine/store/engine/schematic/schematic.actions';
 
 @Component({
   selector: 've-schematics',

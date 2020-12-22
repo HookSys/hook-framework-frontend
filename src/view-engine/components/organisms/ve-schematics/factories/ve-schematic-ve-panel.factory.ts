@@ -1,11 +1,8 @@
-import { CreateSchematic } from 'view-engine/store/engine/schematic/schematic.actions';
+import { AppendSchematic, CreateSchematic } from 'view-engine/store/engine/schematic/schematic.actions';
 import { Store } from '@ngxs/store';
-import { ViewEnginePanelComponent } from './../../../molecules/ve-panel/ve-panel.component';
-import { AfterViewInit, Component, ComponentFactoryResolver, Input, OnInit, ViewChild, ViewContainerRef, ɵConsole } from '@angular/core';
-import { SchematicObject } from 'models/schematic-object';
+import { AfterViewInit, Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { SchematicObjectWithRelations } from 'models/schematic-object-with-relations';
 import { SchematicObjectControllerService } from './../../../../api/services/schematic-object-controller.service';
-import { ViewEnginePanelDirective } from './../../../molecules/ve-panel/ve-panel.directive';
 import { FilterBuilder } from 'view-engine/api/query';
 
 const filter = new FilterBuilder<SchematicObjectWithRelations>({
@@ -18,22 +15,29 @@ const filter = new FilterBuilder<SchematicObjectWithRelations>({
   selector: 've-schematics-ve-panel',
   template: `<ve-panel *ngIf="schematicObj" [parent]="parent" [schematic]="schematicObj"></ve-panel>`
 })
-export class ViewEngineSchematicsPanelComponent implements OnInit, AfterViewInit {
+export class ViewEngineSchematicsPanelComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   schematic: SchematicObjectWithRelations;
   parent: number;
-
-  schematicObj = null;
+  schematicObj?: SchematicObjectWithRelations = null;
 
   constructor(
     private store: Store,
     private schematicObjSvc: SchematicObjectControllerService,
-  ) {}
+  ) {
+  }
+
+  ngOnChanges() {
+    this.schematicObj = this.schematic
+  }
 
   ngOnInit() {
     this.schematicObjSvc.findById({ id: this.schematic.id, filter }).subscribe(s => {
       this.schematicObj = s;
-      this.store.dispatch(new CreateSchematic(s))
+      this.store.dispatch(new AppendSchematic(this.parent, "PANEL", s));
     });
+  }
+
+  ngOnDestroy() {
   }
 
   ngAfterViewInit() {

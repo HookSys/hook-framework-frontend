@@ -1,4 +1,4 @@
-import { SchematicObjectControllerService } from './../../../api/services/schematic-object-controller.service';
+import { Store } from '@ngxs/store';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Feature } from 'view-engine/api/models';
 
@@ -11,8 +11,9 @@ export class ViewEngineFeatureComponent implements OnInit, OnDestroy {
   @Input()
   feature: Feature;
 
+  constructor(private store: Store) {}
+
   public ngOnInit() {
-    debugger
   }
 
   public ngOnDestroy() {

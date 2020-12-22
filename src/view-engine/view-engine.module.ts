@@ -75,6 +75,7 @@ import { TreeModule } from '@circlon/angular-tree-component';
     ViewEngineLoaderComponent,
     ViewEngineFeatureComponent,
     ViewEnginePanelComponent,
+    ViewEngineDbPanelComponent,
   ],
   entryComponents: [
     ViewEngineSchematicsPanelComponent,

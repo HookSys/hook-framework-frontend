@@ -1,26 +1,29 @@
 import { SelectFeature } from './../store/engine/features/features.actions';
-import { Observable } from 'rxjs';
 import { FeaturesState } from './../store/engine/features/features.state';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Feature, FeatureWithRelations } from 'view-engine/api/models';
-import { CloseFeature, OpenFeature } from 'view-engine/store/engine/features/features.actions';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { Feature } from 'view-engine/api/models';
+import { CloseFeature } from 'view-engine/store/engine/features/features.actions';
 
 @Component({
   selector: 've-view-engine',
   templateUrl: './engine.component.html',
   styleUrls: ['./engine.component.scss']
 })
-export class ViewEngineComponent {
-  features: Feature[];
+export class ViewEngineComponent implements OnInit {
+  features: Feature[] = [];
 
   @Output()
   onSpotlightClick: EventEmitter<void> = new EventEmitter();
 
   constructor(private store: Store) {
+
+  }
+
+  ngOnInit() {
     this.store.select(FeaturesState.getFeatures).subscribe(t =>{
-       this.features = t
-    });
+      this.features = t
+   });
   }
 
   selectFunction(feature: Feature) {

@@ -26,6 +26,19 @@ export function getDefaultValueByType(value: any, field: ViewAttribute) {
   return value ? String(value) : '';
 }
 
+export const deleteByPath = (object: Object, path: string) => {
+  let currentObject = { ...object }
+  const parts = path.split(".")
+  const last = parts.pop()
+  for (const part of parts) {
+    currentObject = currentObject[part]
+    if (!currentObject) {
+      return
+    }
+  }
+  delete currentObject[last]
+}
+
 export class ViewEngineFieldBase<T> {
   value: T;
   key: string;

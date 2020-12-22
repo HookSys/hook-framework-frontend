@@ -12,4 +12,7 @@ export interface SchematicObjectWithRelations {
   type: 'PANEL' | 'DBPANEL' | 'FUNCTION';
   updatedAt?: string;
   updatedBy?: string;
+  parentId?: number;
+  featureId?: number;
+  data?: object;
 }

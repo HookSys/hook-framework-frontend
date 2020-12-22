@@ -4,6 +4,7 @@ import { NgxsDevtoolsOptions } from '@ngxs/devtools-plugin/src/symbols';
 import { NgxsLoggerPluginOptions } from '@ngxs/logger-plugin/src/symbols';
 import { UserState } from './user/user.state';
 import { EngineState, EngineStates } from './engine';
+import { CloseLoading, StartLoading } from './engine/app/app.actions';
 
 export const STATES_MODULES = [AuthState, UserState, EngineState, ...EngineStates];
 
@@ -35,5 +36,6 @@ export const LOGGER_CONFIG: NgxsLoggerPluginOptions = {
    * import { environment } from '@env';
    * disabled: environment.production
    */
-  disabled: false
+  disabled: false,
+  filter: (action, state) => !(action instanceof CloseLoading || action instanceof StartLoading)
 };

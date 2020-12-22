@@ -1,3 +1,4 @@
+import { SchematicsStateModel } from '../../store/engine/schematic/schematic.state';
 import { SchematicObjectWithRelations } from 'models/schematic-object-with-relations';
 /* tslint:disable */
 export interface Feature {
@@ -12,5 +13,6 @@ export interface Feature {
   updatedAt?: string;
   updatedBy?: string;
   schematicObject?: SchematicObjectWithRelations;
+  schematic?: SchematicsStateModel;
   [key: string]: any;
 }
